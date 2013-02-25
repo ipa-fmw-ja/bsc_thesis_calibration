@@ -1,0 +1,55 @@
+\documentclass{beamer}
+%\documentclass[handout]{beamer}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+\usepackage{lmodern}
+
+\usepackage{hyperref}
+
+
+%\usepackage{amsmath, amsthm, amssymb} 
+%\usepackage{mathtools}
+
+
+%\usepackage{listings} 
+ \usepackage{color}
+
+ \definecolor{hfugreen}{RGB}{0,136,84}
+ \usepackage{tikz}
+    \usetikzlibrary{positioning}
+    \tikzstyle{rec}=[fill=hfugreen,text=white,
+        minimum size=2em, minimum width=9em]
+
+\usepackage{graphicx}
+
+
+\usetheme{Antibes}
+%\usetheme{Luebeck}
+%\usecolortheme{seagull}
+%\usecolortheme{chameleon}%seagull
+\usecolortheme[RGB={0,136,84}]{structure}
+\beamertemplatenavigationsymbolsempty
+
+%\mode<presentation>{
+%\hypersetup{pdfpagemode=FullScreen}
+%}
+
+
+
+
+
+\setbeamertemplate{footline}
+{%
+\begin{beamercolorbox}[wd=0.5\textwidth,ht=3ex,dp=1.5ex,leftskip=.5em,rightskip=.5em]{author in head/foot}%
+\usebeamerfont{author in head/foot}%
+\insertframenumber\hfill\insertshortauthor%
+\end{beamercolorbox}%
+\vspace*{-4.5ex}\hspace*{0.5\textwidth}%
+\begin{beamercolorbox}[wd=0.5\textwidth,ht=3ex,dp=1.5ex,left,leftskip=.5em]{title in head/foot}%
+\usebeamerfont{title in head/foot}%
+\insertshorttitle%
+\end{beamercolorbox}%
+}
+
+

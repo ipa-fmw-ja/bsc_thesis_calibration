@@ -1,0 +1,31 @@
+\subsection{Feste Parametrisierung}
+
+\begin{frame}
+  \frametitle{Feste Parametrisierung}
+  \begin{block}{Anpassungen für den Roboter im Quellcode} \pause
+    \begin{itemize}
+      \item für jeden Roboter war ein eigenes Build erforderlich \pause
+      \item Anforderungen die nicht jeder Roboter erfüllen konnte 
+    \end{itemize}\end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lösung}
+  \begin{block}{Auslagern der Parameter in Konfigurationsdateien} \pause
+    \begin{itemize}
+      \item Kameradaten \pause
+      \item Kalibrierungsobjekt 
+    \end{itemize}
+  \end{block}
+  
+    \pause
+  \begin{block} {Berechnung der Zielpositionen}
+    \pause
+    \begin{itemize}
+      \item Festlegen eines Bereiches und einer Dichte \pause
+      \item Berechnung der Samples \pause
+    \end{itemize}
+  \end{block}
+
+  $\rightarrow$ Neue Roboter lassen sich einfacher in die Kalibrierung einbeziehen
+\end{frame}

@@ -1,0 +1,25 @@
+\subsection{Doppelte Modellierung vermeiden}
+\begin{frame}
+  \frametitle{Doppelte Modellierung des Roboters}
+
+  \begin{block}{Problem}
+    \pause
+    \begin{itemize}
+      \item Roboterbeschreibung in URDF \pause
+      \item Beschreibung der Kinematiken in Denavit-Hartenberg Parametern \pause
+    \end{itemize}\end{block}
+$\rightarrow$ Unnötiger Mehraufwand
+\end{frame}
+
+\begin{frame}
+  \frametitle{Doppelte Modellierung des Roboters vermeiden}
+  \begin{block}{Lösungen}
+    \pause
+    \begin{itemize}[<+->]
+      \item Berechnung der Denavit-Hartenberg Parameter
+      \item Nutzung der URDF Beschreibung
+      \item \color<5>[rgb]{1,0,0}Abspeichern der Transformation bei der Datenaufnahme
+    \end{itemize}\end{block}
+\end{frame}
+
+

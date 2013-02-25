@@ -1,0 +1,70 @@
+\include{preamble}
+\newcommand{\cob}{Care-o-bot}
+\begin{document}
+\newif\ifplacelogo
+\placelogotrue
+\title{Automatische Kalibrierung eines mobilen Serviceroboters}
+\subtitle{}
+\author{Jannik Abbenseth}
+\institute{Hochschule Furtwangen University, Fakultät für Maschinenbau und Mechatronik
+    \and Fraunhofer Gesellschaft, Institut für Produktionstechnik und Automatisierung}
+\logo{\ifplacelogo\includegraphics[height=.5cm]{images/hfu_logo.pdf}
+\hskip2em
+\includegraphics[height=.5cm]{images/ipa_xl}\fi}
+\date{20. Februar 2013}
+\begin{frame}
+
+\titlepage{}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Ablauf}
+  \tableofcontents[pausesections, hideallsubsections]
+\end{frame}
+
+
+\section{Der \cob}
+\label{sec:Der \cob}
+
+\begin{frame}
+  \frametitle{Ablauf}
+  \tableofcontents[currentsection]
+\end{frame}
+
+
+\include{chapters/cob}
+\include{chapters/kalibrierungsbedarf}
+\include{chapters/kalibrierungsablauf}
+\section{Verbesserungen der automatischen Kalibrierung}
+\label{sec:Verbesserungspotential der bisherigen Kalibrierung}
+
+
+\begin{frame}
+  \frametitle{Ablauf}
+  \tableofcontents[currentsection,pausesubsections]
+\end{frame}
+\include{chapters/modellierung}
+\include{chapters/parametrisierung}
+\include{chapters/datenaufnahme}  
+
+\section{Ergebnisse und Ausblick}
+\begin{frame}
+  \frametitle{Ablauf}
+  \tableofcontents[currentsection]
+\end{frame}
+
+
+\label{sec:Ergebnisse und Ausblick}
+
+\include{chapters/fazit}
+
+%\nocite{*}
+%\begin{frame}[allowframebreaks]{Bibliography}
+%\printbibliography
+%\end{frame}
+
+\end{document}
+
+
