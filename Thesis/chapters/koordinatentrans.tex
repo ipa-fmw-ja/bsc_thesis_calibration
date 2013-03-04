@@ -1,0 +1,109 @@
+\section{Koordinatentransformationen}
+
+Ein wichtiges Thema bei der Robotik ist die Transformation eines 
+Koordinatensystems in ein anderes. In der Robotik bekommt jedes
+Objekt, das maßgeblich an einer Operation beteiligt ist, ein eigenes
+Koordinatensystem um seine Lage, bestehend aus Position und Orientierung
+im Raum zu beschreiben. Dadurch lässt sich berechnen wie ein Objekt gegriffen
+werden muss oder Kollisionen vermieden. Die Transformation von einem 
+Koordinatensystem in ein anderes, wie sie zum Beispiel vorkommt, wenn ein die 
+Kameras (Koordinatensystem 1) ein Objekt (Koordinatensystem 2) erkennen, kann
+durch eine Translation und eine Rotation dargestellt werden. Wenn die Lage der
+Kameras relativ zur Basis des Roboters (Koordinatensystem 0) bekannt ist ist
+auch die Lage des Objekts im Koordinatensystem 0 bekannt. Für den \cob\ ist 
+jedes Koordinatensystem ein Kind eines sogenannten Parent-Frames das wiederum 
+ein Koordinatensystem ist. Ein Parent-Frame kann mehrere Kinder haben, aber ein
+Kind kann nur einen Parent-Frame haben. Außerdem sind alle Koordinatensysteme
+des \cob\ orthonormale Koordinatensysteme. 
+
+\subsection{Translation}
+\label{sub:Translation}
+
+
+Die Translation beschreibt nur die Position eines Punktes im Raum. Für die 
+Koordinatentransformation ist dieser Punkt der Ursprung des neuen Koordinatensystems.
+Der Punkt P wird im n-Dimensionalen durch einen Koordinatenvektor mit n 
+Elementen angegeben. Räumliche Transformationen beschränken sich auf drei Dimensionen
+und damit den Punkt $P= [p_x\\p_y\\p_z]^T$. Jedes Element $p_n$ gibt die Entfernung
+entlang der n-ten Achse des Parent-Frames an.
+
+Da für jeden Punkt festgelegt sein muss in welchem Koordinatensystem $A$ er angegeben
+ist, wird das Bezugskoordinatensystem in der Form $^AP$ angegeben.
+
+\subsection{Rotation}
+\label{sub:Rotation}
+
+Da in der Robotik die Position eines Objektes selten ausreichend ist, wird zusätzlich 
+die Orientierung benötigt. Dafür bekommt das Objekt ein Koordinatensystem bestehend
+aus dem Ursprung $P$ und drei Achsen. Die Ausrichtung der drei Achsen wirden durch
+drei Vektoren im Parent-Frame angegeben, die orthogonal sind und die Länge $1$
+haben. Die drei Vektoren die die Achsen des Koordinatensystems $B$ im Parent-Frame
+$A$ angeben werden eindeutig mit $^A\hat{X}_B$, $^A\hat{Y}_B$ und $^A\hat{Z}_B$
+angegeben. Diese drei Vektoren werden zu der sogenannten Rotationsmatrix
+\begin{equation}
+  ^A_BR = [ ^A\hat{X}_B ^A\hat{Y}_B ^A\hat{Z}_B ] = \begin{pmatrix}
+    r_{11}&r_{12}&r_{13}\\
+    r_{21}&r_{22}&r_{23}\\
+    r_{31}&r_{32}&r_{33}
+  \end{pmatrix}
+  \label{eq:rotationsmatrix}
+\end{equation}
+zusammengefasst.
+
+Für die Rotation $^B_AR$ gilt wie in \cite{craig2005} angegeben:
+\begin{equation}
+  ^B_AR=^A_BR^T
+\end{equation}
+
+
+Zur vereinfachten Darstellung von Rotationen genügen drei Winkel, aus denen die
+Rotationsmatrix berechnet werden kann. Am \cob\ wird hierfür die \begin{quote}Roll-Pitch-Yaw\end{quote}
+Präsentation gewählt. Weitere verbreitete Methoden sind wie in \cite{sciavicco2000modelling} 
+dargestellt die zwölf Versionen der Euler-Winkel.
+
+\subsubsection{Roll-Pitch-Yaw}
+\label{ssub:Roll-Pitch-Yaw}
+
+Die Roll-Pitch-Yaw Beschreibung stammt aus der Luft- und Seefahrt und wird genutzt
+um die Orientierung eines Objekts mit den drei Winkeln 
+\begin{description}
+  \item[$\phi$]Rollwinkel, der eine Drehung um die X-Achse des Referenzkoordinatensystems
+    angibt
+  \item[$\psi$]Gierwinkel, der die Drehung um die Z-Achse eines Referenzkoordinatensystems
+    beschreibt
+  \item[$\theta$]Nickwinkel. Beschreibt die Rotation um die feste Y-Achse
+
+\end{description}
+
+angegeben.
+
+Die Rotationsmatrix berechnet sich daraus mit $c_x=cos(x)$ und $s_x=sin(x)$ zu:
+
+\begin{equation}
+  R_{RPY}=
+  \begin{pmatrix}
+    c_\phi*c_\theta     
+    & c_\phi*s_\psi*s_\theta-s_\phi*c_\theta
+    & c_\phi*s_\psi*c_\theta-s_\phi*s_\theta\\
+
+    s_\phi*s_\psi          
+    & s_\phi*s_\psi*s_\theta+c_\phi*c_\theta
+    & s_\phi*s_\psi*c_\theta-c_\phi*s_\theta\\
+  
+    -s_\psi    
+    & c_\psi*s_\theta   
+    & c_\phi*c_\theta
+  
+  \end{pmatrix}
+\end{equation}
+
+Alle für den \cob\ angegebenen Orientierungen in der Roboterbeschreibung sind 
+als Roll-Pitch-Yaw Winkel angegeben. Außerdem kann durch vorhandene Nodes 
+die Orientierung von jedem Koordinatensytem des \cob\ relativ zu jedem 
+anderen Koordinatensystem des \cob\ in einem Translationsvektor und den Roll-Pitch-Yaw
+Winkeln berechnet werden.
+
+
+\subsubsection{Denavit-Hartenberg Parameter}
+\label{ssub:Denavit-Hartenberg Parameter}
+\input{chapters/dh-parameter}

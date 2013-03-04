@@ -1,0 +1,205 @@
+% This file was created with JabRef 2.7b.
+% Encoding: UTF8
+
+@INPROCEEDINGS{conf/icra/MaddernHN12,
+  author = {Maddern, Will and Harrison, Alastair and Newman, Paul},
+  title = {Lost in translation (and rotation): Rapid extrinsic calibration for
+	2D and 3D LIDARs.},
+  booktitle = {ICRA},
+  year = {2012},
+  pages = {3096-3102},
+  publisher = {IEEE},
+  added-at = {2012-07-19T00:00:00.000+0200},
+  biburl = {http://www.bibsonomy.org/bibtex/2e1623169fd8ba895cffbb9092171d393/dblp},
+  crossref = {conf/icra/2012},
+  ee = {http://dx.doi.org/10.1109/ICRA.2012.6224607},
+  interhash = {9bae9f1c3fbbd754f3cccd06597cc722},
+  intrahash = {e1623169fd8ba895cffbb9092171d393},
+  isbn = {978-1-4673-1403-9},
+  keywords = {dblp},
+  timestamp = {2012-07-19T00:00:00.000+0200},
+  url = {http://www.robots.ox.ac.uk/~mobile/Papers/2012ICRA_wm_arh_pmn.pdf}
+}
+
+@TECHREPORT{Lutz-LTCS-99-01,
+  author = {Benjamin Huhle, Timo Schairer, Andreas Schilling, Wolfgang Straßer},
+  title = {6DoF Registration of 2D Laser Scans},
+  institution = {Department of Graphical Interactive Systems (GRIS),University of
+	Tübingen},
+  year = {2011},
+  address = {Tübingen, Germany},
+  note = {See http://www.gris.uni-tuebingen.de/people/staff/huhle/publications/huhle-2011-3DIMPVT.pdf},
+  file = {:Lutz-LTCS-99-01.pdf:PDF},
+  url = {http://www.gris.uni-tuebingen.de/people/staff/huhle/publications/huhle-2011-3DIMPVT.pdf}
+}
+
+@BOOK{Bradski2008,
+  title = {Learning OpenCV: Computer Vision with the OpenCV Library},
+  publisher = {O'Reilly Media, Incorporated},
+  year = {2008},
+  author = {Gary Bradski and Adrian Kaehler},
+  month = sep,
+  abstract = {"This library is useful for practitioners, and is an excellent tool
+	for those entering the field: it is a set of computer vision algorithms
+	that work as advertised." -William T. Freeman, Computer Science and
+	Artificial Intelligence Laboratory, Massachusetts Institute of Technology
+	Learning OpenCV puts you in the middle of the rapidly expanding field
+	of computer vision. Written by the creators of the free open source
+	OpenCV library, this book introduces you to computer vision and demonstrates
+	how you can quickly build applications that enable computers to "see"
+	and make decisions based on that data. Computer vision is everywhere-in
+	security systems, manufacturing inspection systems, medical image
+	analysis, Unmanned Aerial Vehicles, and more. It stitches Google
+	maps and Google Earth together, checks the pixels on LCD screens,
+	and makes sure the stitches in your shirt are sewn properly. OpenCV
+	provides an easy-to-use computer vision framework and a comprehensive
+	library with more than 500 functions that can run vision code in
+	real time. Learning OpenCV will teach any developer or hobbyist to
+	use the framework quickly with the help of hands-on exercises in
+	each chapter. This book includes: A thorough introduction to OpenCV
+	Getting input from cameras Transforming images Segmenting images
+	and shape matching Pattern recognition, including face detection
+	Tracking and motion in 2 and 3 dimensions 3D reconstruction from
+	stereo vision Machine learning algorithms Getting machines to see
+	is a challenging but entertaining goal. Whether you want to build
+	simple or sophisticated vision applications, Learning OpenCV is the
+	book you need to get started.},
+  isbn = {9780596516130}
+}
+
+@BOOK{craig2005,
+  title = {Introduction to Robotics: Mechanics and Control},
+  publisher = {Addison-Wesley Longman},
+  year = {2005},
+  author = {John J. Craig},
+  abstract = {Written for senior level or first year graduate level robotics courses,
+	this text includes material from traditional mechanical engineering,
+	control theoretical material and computer science. It includes coverage
+	of rigid-body transformations and forward and inverse positional
+	kinematics.},
+  isbn = {9780201543612}
+}
+
+@BOOK{forsyth2011,
+  title = {Computer Vision: A Modern Approach},
+  publisher = {Pearson},
+  year = {2011},
+  author = {Forsyth, D.A. and Ponce, J.},
+  isbn = {9780136085928},
+  lccn = {2011036341},
+  owner = {jannik},
+  timestamp = {2013.01.25},
+  url = {http://books.google.de/books?id=gM63QQAACAAJ}
+}
+
+@MASTERSTHESIS{Haug2012,
+  author = {Sebastian Alexander Haug},
+  title = {Automatische Kalibrierung eines komplexen Serviceroboters},
+  school = {Institut für Automatisierungs- und Softwaretechnik Universität Stuttgart},
+  year = {2012}
+}
+
+@ELECTRONIC{cob_related,
+  author = {IPA},
+  year = {2009},
+  title = {"Related" Robots},
+  language = {english},
+  organization = {Fraunhofer Gesellschaft},
+  url = {http://www.care-o-bot.de/english/Related.php},
+  owner = {jannik},
+  timestamp = {2012.10.08}
+}
+
+@BOOK{levi2012autonomous,
+  title = {Autonomous Mobile Systems 2012: 22. Fachgespr{\"a}ch Stuttgart, 26.
+	Bis 28. September 2012},
+  publisher = {Springer London, Limited},
+  year = {2012},
+  author = {Levi, P. and H{\"a}u{\ss}ermann, K. and Zweigle, O. and Ermann, K.H.U.
+	and Eckstein, B.},
+  series = {Informatik Aktuell Series},
+  isbn = {9783642322167},
+  url = {http://books.google.de/books?id=iQSlMAEACAAJ}
+}
+
+@ELECTRONIC{pr2_estimation,
+  author = {Vijay Pradeep},
+  url = {http://www.ros.org/wiki/pr2_calibration_estimation?distro=electric},
+  owner = {jannik},
+  timestamp = {2013.03.04}
+}
+
+@CONFERENCE{Pradeep2010,
+  author = {Vijay Pradeep and Kurt Konolige and Eric Berger},
+  title = {Calibrating a multi-arm multi-sensor robot: A Bundle Adjustment Approach},
+  booktitle = {International Symposium on Experimental Robotics (ISER)},
+  year = {2010},
+  address = {New Delhi, India},
+  month = {12/2010},
+  abstract = {<p>Complex robots with multiple arms and sensors need good calibration
+	to perform precise tasks in unstructured environments. The sensors
+	must be calibrated both to the manipulators and to each other, since
+	fused sensor data is often needed. We propose an extendable framework
+	that combines measurements from the robot{\textquoteright}s various
+	sensors (proprioceptive and external) to calibrate the robot{\textquoteright}s
+	joint offsets and external sensor locations. Our approach is unique
+	in that it accounts for sensor measurement uncertainties, thereby
+	allowing sensors with very different error characteristics to be
+	used side by side in the calibration. The framework is general enough
+	to handle complex robots with kinematic components, including external
+	sensors on kinematic chains. We validate the framework by implementing
+	it on the Willow Garage PR2 robot, providing a significant improvement
+	in the robot{\textquoteright}s calibration.</p>},
+  attachments = {http://www.willowgarage.com/sites/default/files/calibration.pdf},
+  file = {:/home/jannik/Dropbox/Projekte/Thesis/bib/files/Pradeep - Calibrating a Robot.pdf:PDF},
+  url = {http://www.willowgarage.com/sites/default/files/calibration.pdf}
+}
+
+@BOOK{Schraft1996,
+  title = {Serviceroboter: Innovative Technik in Dienstleistung und Versorgung},
+  publisher = {Springer},
+  year = {1996},
+  author = {Schraft, R.D. and Volz, H.},
+  __markedentry = {[jannik:6]},
+  isbn = {9780387593593},
+  owner = {jannik},
+  timestamp = {2012.10.15},
+  url = {http://books.google.de/books?id=Kqc1pwAACAAJ}
+}
+
+@BOOK{sciavicco2000modelling,
+  title = {Modelling and Control of Robot Manipulators},
+  publisher = {Springer-Verlag},
+  year = {2000},
+  author = {Sciavicco, L. and Siciliano, B.},
+  series = {Advanced Textbooks in Control and Signal Processing Series},
+  isbn = {9781852332211},
+  lccn = {99462018},
+  url = {http://books.google.de/books?id=v9PLbcYd9aUC}
+}
+
+@ELECTRONIC{tankpitstop,
+  author = {tankpitstop},
+  title = {The TankPitstop},
+  language = {english},
+  howpublished = {http://www.tankpitstop.nl/index.php?pid=8\&lang=en},
+  organization = {tankpitstop},
+  url = {(http://www.tankpitstop.nl/index.php?pid=8&lang=en)},
+  owner = {jannik},
+  timestamp = {2012.10.08}
+}
+
+@ARTICLE{zhang2000flexible,
+  author = {Zhang, Z.},
+  title = {A flexible new technique for camera calibration},
+  journal = {Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  year = {2000},
+  volume = {22},
+  pages = {1330--1334},
+  number = {11},
+  publisher = {IEEE}
+}
+
+@comment{jabref-meta: fileDirectory-jannik:/home/jannik/Dropbox/Studiu
+m/7_WS1213/Thesis/bib/files;}
+

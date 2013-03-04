@@ -1,0 +1,281 @@
+\chapter{Umsetzung und Ablauf der Kalibrierung}
+
+Der neu festgelegte Ablauf der Kalibrierung lässt sich in die zwei Schritte 
+Einrichtung und Durchführung unterteilen. Die Einrichtung erfordert Kenntnisse
+über die Funktionweise des Kalibrierablaufs, muss aber nur einmalig pro Roboter
+ausgeführt werden.
+
+\section{Einrichtung der Kalibrierung}
+\label{sec:Einrichtung der Kalibrierung}
+
+Die Einrichtung der Kalibrierung kann vollständig in Simulation erfolgen und 
+umfasst nur Änderungen der Dateien im Package \texttt{cob\_calibration\_config}. 
+
+
+\subsection{Angeben der zu kalibrierenden Kameras und des Kalibrierobjekts}
+\label{sub:Angeben der zu kalibrierenden Kameras}
+
+Ein weiterer neuer Schritt bei der Einrichtung der Kalibrierung auf einem neuen
+Roboter ist das festlegen der zu kalibrierenden Kameras. Hierzu werden in der 
+Datei \texttt{cameras.yaml} eine Referenzkamera und alle weiteren Kameras angegeben.
+Dazu wird für jede Kamera der Name des Sensorkoordinatensystems, das
+\ac{ROS}-Topic auf dem die Bildinformationen verteilt werden und der Pfad zu den
+Kalibrierungsdateien angegeben. Außerdem muss das eingesetzte Kalibrierungsmuster
+angegeben werden. 
+
+Diese Einstellungen waren bei dem ursprünglichen Kalibrierverfahren an mehreren 
+Stellen verteilt, was das Anpassen an neue Roboter erschwert hat.
+\subsection{Ausgangspunkt der Kalibrierung}
+\label{sub:Ausgangspunkt der Kalibrierung}
+
+Als
+erster Schritt muss die neue Konfigurationsdatei \texttt{calibration\_seed.yaml} 
+angelegt werden, in der eine Position des Kalibrierobjekts mittig im Sichtfeld
+der Kameras in Gelenkwinkeln angegeben wird. Diese Position ist der Ausgangspunkt
+der Kalibrierung und sollte genutzt werden um den Endeffektor des Roboters durch 
+das Kalibrierobjekt zu ersetzen. Die angegebene Position wird als Anfangspunkt 
+für die Suche der Samplepositionen verwendet.
+
+\subsection{Berechnung der Samplepositionen}
+\label{sub:Berechnung der Samplepositionen}
+Die Samplepositionen werden automatisch berechnet. Dazu muss der Ausgangspunkt 
+der Kalibrierung bekannt sein. Bei der Berechnung wird ein Bereich im Arbeitsraum
+der zu kalibrierenden Aktorkette festgelegt. Danach werden für einzelne
+Positionen in diesem Raum Berechnungen zur Sichtbarkeit und zur Erreichbarkeit 
+der Positionen ausgeführt. Dazu wird mit einem allgemeinen Kameramodell das nur
+den Öffnungswinkel des Bildes benötigt und einem Modell der Bewegung der 
+optischen Achse berechnet, ob die Position sichtbar ist. Im Anschluss daran wird
+gegebenen Falls die inverse Kinematik des Torsos und des Arms berechnet. Die 
+berechneten Gelenkwinkel werden in der Datei \texttt{calibration\_positions.yaml}
+gespeichert. Die berechneten Positionen können anschließend in Simulation
+überprüft und manuell um weitere Positionen erweitert werden. Im gegensatz zur 
+Bisherigen Kalibrierung lassen sich durch die neue Berechnung schneller
+Gelenkwinkel für Roboter mit unterschiedlichen Arbeitsräumen festlegen. 
+
+\subsection{Festlegung der Kinematischen Pfade}
+\label{sub:Festlegung der Kinematischen Pfade}
+Für jeden weiteren Schritt müssen Informationen vorhanden sein, welche
+kinematischen Ketten an der Kalibrierung beteiligt sind. Dazu wird wie bei dem 
+ursprünglichen Verfahren eine Konfigurationsdatei verwendet. Um auch 
+hintereinander angeordnete Aktoren in der Kalibrierung zu berücksichtigen wurde 
+die Struktur angepasst. Die neue \texttt{sensors.yaml} setzt sich aus den drei
+Blöcken \texttt{chains}, \texttt{sensor\_chains} und \texttt{camera\_chains}
+zusammen.
+
+Der neue Block \texttt{chains} beschreibt alle vorkommenden Aktorketten. Dazu 
+werden die Transformation zum Ursprung des Aktors, das Ursprungs- und das 
+Endkoordinatensystem sowie Transformationen nach dem Aktor angegeben. Zusätzlich
+bekommt jede Kette einen eindeutigen Namen.
+
+Beim \cob\ werden zwei von drei Ketten angegeben. Da die Kopfachse während der
+Kalibrierung nicht bewegt wird, kann diese Kette als feste Transformation 
+angenommen werden. Der Aufbau dieser Ketten wird in \ref{fig:ketten}
+dargestellt. Die gesamte dargestellte Kette ist vom Typ \texttt{sensor\_chain}
+und zusammengesetzt aus der grün markierten \texttt{chain} und der schwarzen 
+  \texttt{after\_chain}. Die \texttt{chain} setzt sich aus den zwei festen 
+  Transformationen \texttt{before\_chain} und \texttt{after\_chain} und der
+  Aktorkette \texttt{chain} zusammen. Die Aktorkette enthält kann beliebig 
+  lang werden, aber keine zu kalibrierenden Transformationen enthalten.
+
+\begin{figure}[htpb]
+  \centering
+  \def\svgwidth{.5\textwidth}
+  \input{images/Pfade_erklaerung.pdf_tex}
+  \caption{Pfade der Konfigurationsdatei}
+  \label{fig:ketten}
+\end{figure}
+
+Der Block \texttt{sensor\_chains} beschreibt die gesamte Transformation vom \ac{baselink}
+bis zum Kalibrierobjekt. Dazu wird eine Liste der \texttt{chains} sowie die
+Transformationen vor und nach den darin angegebenen Aktorketten. Mit dem gleichen
+Aufbau werden im Block \texttt{camera\_chains} die Transformationen zu den 
+eingesetzten Kameras angegeben.
+
+Aus der erzeugten \texttt{sensors.yaml} kann durch die angewandten Änderungen
+die Datei \texttt{system.yaml} berechnet werden. Hierzu werden die benötigten
+festen Transformationen von einem Skript ausgelesen und umgerechnet. Diese
+Transformationen werden in die gesuchte Konfigurationsdatei eingetragen.
+Zusätzlich wird eine Vorlage für die Konfigurationsdateien zum festlegen
+der Optimierungsschritte erzeugt.
+
+\subsection{Einstellen der freien Optimierungsparameter}
+\label{sub:Einstellen der freien Optimierungsparameter}
+
+Um lokale Minima im Ergebnis der Kalibrierung zu vermeiden, wird die Optimierung
+der Montagepositionen mehrmals ausgeführt. Hierbei werden bei jedem Schritt 
+weitere Parameter zur Optimierung freigegeben. Welche Parameter in welchem 
+Schritt freigegeben werden, kann durch die Konfigurationsdateien
+\texttt{free\_x.yaml} eingestellt werden. \texttt{x} gibt dabei den Kalibrierungsschritt an.
+Der Aufbau der Datei ist mit dem der \texttt{system.yaml} identisch. Die
+Zahlenwerte der Transformationen sind durch $0$ und $1$ ersetzt um anzugeben ob
+der Parameter optimiert werden soll ($1$) oder als fest angenommen wird.
+
+Eine erfolgreiche Kalibrierung mit drei Optimierungsschritten kann erreicht 
+werden, wenn im ersten Schritt nur die Montageposition des Kalibrierobjekts 
+am Arm, im zweiten Schritt die Position der Kameras auf dem Kopf und im letzten 
+Schritt alle anderen gesuchten Transformationen zur Optimierung freigegeben 
+werden.
+
+
+
+\section{Durchführen der Kalibrierung}
+\label{sec:Durchführen der Kalibrierung}
+
+Die Durchführung der Kalibrierung wurde durch die vorgenommenen Änderungen auf
+drei Schritte reduziert. Die drei Schritte gliedern sich in nur noch eine 
+Datenaufnahme und zwei Berechnungsschritte.
+
+\subsection{Datenaufnahme}
+\label{sub:Datenaufnahme}
+
+Vor der Datenaufnahme muss die ``Home''-Position aller Gelenke der Aktoren 
+festgelegt werden. Dazu wird die ``Home''-Position am Aktor manuell angefahren 
+und die Gelenkwinkel in dieser Position als neue Referenz gespeichert. Dazu 
+mussten die Gelenkwinkel ausgelesen und mit der aktuellen Referenz verrechnet 
+werden. Dieser Schritt konnte durch ein Skript automatisiert werden, wodurch die
+Fehleranfälligkeit der Kalibrierung gesenkt werden konnte.
+
+Zur Datenaufnahme muss das in der Konfigurationsdatei angegebene Kalibrierobjekt
+montiert werden. Dazu muss sich der Arm in einer der berechneten Sampleposition 
+oder der Ausgangspositon der Kalibrierung befinden. Durch die Berechnung der 
+Samplepositionen wird sichergestellt, dass alle Aktorstellungen ähnlich zu der
+Ausgangsposition sind. Dadurch werden Umkonfigurationen des Aktors während der 
+Datenaufnahme vermieden. Durch die Montage des Kalibrierobjekts in der
+Ausgangsposition findet auch zu Beginn und zum Ende der Kalibrierung keine 
+Umkonfiguration mit dem angebauten Kalibrierobjekt statt und Kollisionen werden
+vermieden.
+
+Zur Datenaufnahme werden die für die Kalbrierung benötigten Transformationen
+aus der \texttt{sensors.yaml} eingelesen. Zur Datenaufnahme werden die 
+berechneten Samplepositionen angefahren. Im Anschluss wird überprüft, ob das
+Kalibrierobjekt in allen oder nur in der Referenzkamera sichtbar ist. Da für die
+kinematische Kalibrierung nur die Informationen der Referenzkamera verwendet
+werden, wird bei einfacher Sichtbarkeit ein gültiges Sample zur kinematischen 
+Kalibrierung aufgenommen. Bei Sichtbarkeit an allen Kameras werden zusätzlich 
+Bilder für die Kamerakalibrierung aufgenommen.
+
+Für die Kamerakalibrierung werden keine kinematischen Informationen über den
+Roboter benötigt. Daher ist es für ein Sample zur Kamerakalibrierung ausreichend
+dem Kalibrierer die Bilder aller zu kalibrierenden Kameras zur Verfügung zu
+stellen. 
+
+Die kinematische Kalibrierung benötigt zusätzlich zu den Bildinformationen der 
+Referenzkamera die Transformationen der Aktoren. Dazu wird nach den Änderungen
+anstatt den Gelenkwinkeln die Transformation direkt als Translationsvektor und 
+den Roll-Pitch-Yaw Winkeln in ein \ac{ROS} eigenes Datenformat abgespeichert.
+Nach der Datenaufnahme sollten mindestens 20 gültige Samples für beide 
+Kalibrierungen vorhanden sein. 
+
+Die Datenaufnahme wird von dem \ac{ROS}-Node \texttt{collect\_robot\_\allowbreak calibration\_\allowbreak data}
+gesteuert. Die Aktoren werden mit dem für alle am Roboter verwendeten Aktoren in
+die gewünschte Sampleposition gebracht. Dannach wird mit einem \ac{ROS}-Service
+Aufruf der \ac{ROS}-Node \texttt{visibility\_checker} angewiesen die Sichtbarkeit
+des Kalibrierobjekts in jeder Kamera zu überprüfen. Geantwortet wird, ob das 
+Kalibrierobjekt in allen oder nur in der Referenzkamera zu sehen ist. 
+Wenn das Objekt nur in der Referenzkamera sichtbar ist, wird nur ein Datensatz
+für die kinematische Kalibrierung aufgenommen. Hierzu wird der \ac{ROS}-Service
+\texttt{/collect\_data/capture} aufgerufen. Der Empfänger dieses Aufrufs ist 
+der Node \texttt{collect\_data}. Dieser berechnet alle Transformationen die in 
+der \texttt{sensors.yaml} als Aktorketten eingetragen sind anhand des aktuellen
+Roboterzustandes. Zusätzlich werden die Charakteristischen Punkte des Kalibrierobjektes
+aus dem Kamerabild der Referenzkamera extrahiert. Diese zwei Informationen 
+bilden einen Datensatz und werden zu einer Nachricht auf dem \ac{ROS}-Topic
+\texttt{/robot\_measurement} zusammengefasst. Alle Nachrichten die auf diesem 
+Topic veröffentlich werden werden in einer Datei gespeichert und bilden die
+Datengrundlage zur späteren Kalibrierung.
+
+Wenn das Kalibrierobjekt in allen Kameras sichtbar ist, wird zusätzlich ein 
+Datensatz für die Kamerakalibrierung aufgenommen. Dazu wird der \ac{ROS}-Service
+\texttt{/image\_capture/capture} aufgerufen, der im \ac{ROS}-Node \texttt{image\_capture}
+die Speicherung aller Kamerabilder als \texttt{*.jpg} veranlasst.
+
+Alle Bilddaten die in diesem Schritt verarbeitet oder abgespeichert werden sind
+die unverabeiteten Rohbilder, bei denen noch keine Linseneffekte herausgerechnet
+sind.
+
+Nachdem die Serviceaufrufe erfolgreich beantwortet wurden, wird an der nächsten
+Kalibrierungsposition versucht einen weiteren Datensatz aufzunehmen.
+
+\subsection{Berechnung der Kameraparameter}
+\label{sub:Berechnung der Kameraparameter}
+
+Aus den aufgenommen werden im Anschluss die Kameraparameter aller Kameras sowie
+deren Transformationen zur Referenzkamera berechnet. Die wichtigste Neuerung der 
+Kamerakalibrierung ist, dass nicht nur die Transformation des Stereokamerapaars
+sondern auch die Transformation zu den anderen Kameras berechnet wird. Dafür 
+wurde ein neues Kamerareferenzkoordinatensystem für den Roboter eingeführt. Das
+Koordinatensystem der Referenzkamera ist identisch mit dem neuen Koordinatensystem.
+Dadurch werden im ersten Berechnungsschritt alle Transformationen im Kopf des 
+Roboters berechnet. Durch das zusätzliche zusätzliche Koordinatensystem muss 
+im anschließenden kinematischen Kalibrierungsschritt nur noch die Montageposition
+des Kopfes und nicht mehr jeder einzelnen Kamera berechnet werden. Im nächsten
+Schritt wird zur Berechnung der Montagepostion der Kameras die Stellung des 
+Aktors berücksichtigt. Die daraus resultierende Ungenauigkeit wird in dem neuen
+Berechnungsverfahren umgangen, wodurch eine genauere Kameraposition berechnet
+werden kann. 
+
+Für die Berechnung werden Stereokamerapaare gebildet, die jeweils aus der
+Referenzkamera und einer der anderen Kameras bestehen. Für dieses 
+Kamerapaar werden dann die vorher aufgenommenen Bilder geladen und 
+verarbeitet. Mit den daraus gewonnenen Pixelkoordinaten der wichtigen Punkte 
+des Kalibrierobjekts wird der Stereokamerakalibrieralgorithmus von OpenCV 
+aufgerufen, der die Kameraparameter und die Translationen zwischen den Kameras 
+berechnet. 
+
+Die berechneten Transformationen werden anschließend in die Kalibrierungsdatei
+eingetragen. Außerdem wird für jede Kamera eine Kalibrierungsdatei erstellt,
+die die Kameraparameter enthält.
+
+
+\subsection{Kinematische Kalibrierung}
+\label{sub:Kinematische Kalibrierung_umsetzung}
+
+Als letzter Schritt werden die Montagepositionen der einzelnen Komponenten des 
+Roboters optimiert. Dazu muss ein Modell des Roboters erzeugt werden, das 
+alle aufgenommenen Daten abbilden kann. Das Modell wird durch die Verkettung
+von drei Klassen erzeugt. Durch die Änderungen an der Datenaufnahme
+und den neuen Konfigurationsdateien mussten weitreichende Änderungen an den 
+Klassen dieses Modells durchgeführt werden. Die drei existierenden Klassen 
+waren dienten zur Abbildung einer Kamera, einer Kette von Transformationen und
+dem Kalibrierobjekt. Die beiden Klassen zur Darstellung der Kamera und des 
+Kalibrierobjektes werden zur Berechnung der Abweichung eines virtuellen
+Kalibrierobjektes und den gemessenen Daten verwendet.
+
+In der Kameraklasse werden dafür die Koordinaten der Merkmale des virtuellen 
+Kalibrierobjekts auf den modellierten Sensor projiziert. Dafür müssen die
+Brennweiten und Verschiebungswerte bekannnt sein, die vor den Änderungen in den
+Messdatensätzen angegeben waren. Da die Kameras beim angepassten Verfahren 
+während der Datenaufnahme noch nicht kalibriert und somit die benötigten 
+Parameter noch nicht bekannt sind müssen die Werte aus der, nach der
+Kamerakalibrierung erstellten, Kalibrierungsdatei geladen werden. 
+Zusätzlich muss die Linsenverzerrung modelliert werden, die bei kalibrierten 
+Kameras schon ausgerechnet wurde. Dazu werden die Linsenparameter aus der 
+Kalibrierungsdatei gelesen. Auf die berechneten projizierten Punkte wird zur 
+Berechnung des Fehlers die Linsenverzerrung angewandt. Dadurch werden
+die Pixelkoordinaten der Punkte des virtuellen Schachbretts erzeugt, die mit 
+den gemessenen Pixelkoordinaten verglichen werden.
+
+Die Klasse zur Berechnung des Fehlers am Kalibrierobjekt wurde nicht geändert.
+Zur Berechnung des Fehlers werden die Punkte des virtuellen Kalibrierobjektes
+mit den modellierten Punkten des an einer Kette von Transformationen angebrachten
+Kalibrierobjektes verglichen.
+
+Zur Berechnung der Transformationen zu den Sensoren gibt es eine Klasse die 
+unterteilt ist in die Berechnung der festen Transformationen und der variablen
+Aktortransformationen. Die Angabe der festen Transformationen erfolgt nach den
+Änderungen in dem für \ac{ROS} typischen Format Translationsvektor und
+Roll-Pitch-Yaw Winkel. Vorher wurde wie in \cite[Abschnitt 3.3.2]{pr2_estimation}
+ein Rotationsvektor angegeben dessen Länge der Rotationswinkel ist. 
+Durch die Änderung ist die Einrichtung eines neuen Roboters und die Berechnung
+der Rotationsmatrix im Modell vereinfacht worden. 
+Das Modell der variablen Transformationen wurde von \ac{DH-Parameter}n zu
+gegebenen Transformationen im Format Translationsvektor und 
+Roll-Pitch-Yaw Winkel geändert. Dadurch können neue Roboter einfacher in die 
+Kalibrierung übernommen werden. 
+Zusätzlich zu den geänderten Berechnungen der Transformationen der Ketten musste
+auch die Berechnung der Kovarianzmatrix geändert werden um die neue Struktur zu 
+unterstützen. 
+
+Nachdem die berechneten Transformationen in die Kalibrierungsdatei übernommen 
+wurden ist die Kalibrierung abgeschlossen.
+

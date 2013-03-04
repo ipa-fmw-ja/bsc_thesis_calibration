@@ -1,0 +1,506 @@
+\chapter{Aktueller Stand}
+
+In diesem Kapitel wird der \cob vorgestellt und auf die Unterschiede der
+einzelnen Distributionen sowie zu anderen von \ac{IPA} eingegangen. Desweiteren
+wird ein Überblick über \ac{ROS} als Framework für Roboter gegeben. Zuletzt
+werden der bisherige Kalibrierablauf und dessen Schwächen dargestellt.
+
+\section{Aufbau und Beschreibung des \cob}
+
+Das Projekt \cob wurde vom \ac{IPA} bereits 1998 ins Leben gerufen. Bisher sind
+daraus drei Robotergenerationen hervorgegangen. Von der aktuellen dritten
+Generation gibt es bislang 7 Modelle, von denen zwei in Stuttgart am \ac{IPA}
+eingesetzt werden. Dies sind die beiden Modelle cob3-3 und cob3-6. Die anderen
+Modelle wurden an externe Forschungseinrichtungen verkauft und waren für Tests
+an der Hardware nicht verfügbar. Der Grundaufbau ist für jeden \cob der dritten
+Generation der selbe und in  am Beispiel des \cob 3-2 in Abbildung \ref{setup} dargestellt.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\textwidth]{images/hw_setup_with_text}
+\caption{Hardwarekomponenten des \cob}
+\label{setup}
+\end{figure}
+
+  Die einzelnen Modelle unterscheiden sich aber in ihren
+eingesetzten Komponenten. So ist der offensichtlichste Unterschied zwischen
+den in /missingfigure{cob3-3 und cob3-6} abgebildeten cob3-3 und cob3-6 der von verschiedenen Herstellern stammende Arm. 
+
+\subsection{Aktoren}
+
+Die an den verschiedenen \cob Distributionen sind mit den folgenden Aktoren
+ausgestattet, zu denen auch die Unterschiede der Modellnummern cob3-3 und
+cob3-6 aufgelistet sind.
+
+\begin{description}
+  \item[Arm] Für den an der Rückseite des Roboters
+    angebrachten Arm werden zwei Modelle eingesetzt. Einmal der \ac{LBR3} von
+    Kuka sowie der \ac{LWA} von Schunk. 
+  \item[Torso] Der Torso ist je nach
+    Modellnummer ein 3 \ac{DOF} oder ein 4 \ac{DOF} Modell. Sowohl beim \cob
+    3-3 als auch beim \cob 3-6 wird das 3 \ac{DOF} Modell eingesetzt.
+  \item[Base] Als Basis für den Roboter dient eine Omnidirektionale Plattform.
+    Durch die vier in alle Richtungen lenkbaren Räder ist es dem Roboter möglich
+    aus dem Stand in alle Richtungen zu fahren oder den Roboter zu drehen.
+  \item[Tablett] Das Tablett kann beim \cob 3-3 hoch und runter geklappt werden
+    und hat einen Touchscreen eingelassen, mit dem der Roboter bedient werden
+    kann. Beim \cob 3-6 stehen mehr Freiheitsgrade zur Verfügung. Hier kann das
+    Tablett zusätzlich entlang zwei Achsen gedreht werden. Dadurch kann die
+    Bedienung vorallem für sitzende Personen bequemer gemacht werden. 
+  \item[Hand]
+    Als Hand wird die \ac{SDH} mit drei Fingern und sieben Freiheitsgraden
+    eingesetzt. 
+  \item[Kopfachse] Mit der Kopfachse kann die Kamera um \unit[180]{°} nach
+    hinten geschwenkt werden, um sowohl im Manipulationsbereich als auch im
+    \todo{Besseres Wort finden} Servicebereich Bildinformationen zu erhalten. 
+  \item[Lautsprecher] Um dem
+    Nutzer Rückmeldung über die aktuelle Tätigkeit des Roboters zu geben sind in
+    der Plattform Lautsprecher eingebaut.
+
+\end{description}
+
+\subsection{Sensoren}
+
+\begin{description}
+  \item[Kameras] Für die 3-dimensionale Bilderfassung werden
+    verschiedene Systeme eingesetzt. Alle \cob der dritten Generation
+    besitzen ein Stereokameraarray aus zwei hochauflösenden Kameras.
+    Darüberhinaus wird im \cob 3-3 eine Microsoft Kinect, im \cob 3-6 eine
+    Asus X-Tion Pro und in anderen Modellen eine Time-of-flight Kamera
+    eingesetzt. 
+  \item[Laserscanner] Hinten auf der Plattform ist ein
+    Laserscanner von Hokuyo verbaut, der für die Navigation eingesetzt wird.
+    Außerdem ist Vorne und Hinten je ein Sicherheitslaserscanner von SICK
+    verbaut, die zusätzlich den Notaus aktivieren, wenn ein Hindernis in
+    unmittelbarer Nähe detektieren. 
+  \item[Touchscreen] Zur Bedienung des
+    Roboters ist im Tablett ein Touchscreen eingebaut. 
+  \item[Taktile Sensoren]
+    Damit der Roboter unterschiedliche Dinge sicher greifen kann, sind an der
+    Hand taktile Sensoren angebracht, die die Greifkraft ermitteln können.
+  \item[Mikrofon] Unter anderem zur Sprachsteuerung ist im Kopf des Roboters ein
+    Mikrofon verbaut. Je nach 3D Kamera kann es auch in diese Integriert sein.
+\end{description}
+
+\section{Das Robot Operating System}
+
+\ac{ROS} ist ein Framework das als Grundlage für Forschungs- und
+Entwicklungsroboter dienen soll. \ac{ROS} wird als Open-Source Software von
+Willow-Garage sowie einigen weiteren Einrichtungen entwickelt Das Hauptziel bei
+der Entwicklung von \ac{ROS} ist es, ein Framework zu schaffen, in dem
+geschriebener Code nicht an Hardware gebunden ist, sondern wiederverwendet
+werden kann. Dazu wird die Software für den Roboter in einzelne ``Nodes''
+aufgeteilt, die jeweils eigene Aufgaben erfüllen. Nodes werden zu Packages
+zusammengefasst, die einen größeren Funktionsblock einer Anwendung
+darstellen. Beispielhaft hierfür ist das Package
+\texttt{cob\_calibration\_executive} mit dem alle Bewegungen, die der Roboter
+während der Kalibrierung macht, gesteuert werden. Alle für eine Anwendung
+notwendigen neuen Funktionsblöcke werden in Stacks zusammengefasst. Die
+Änderungen und Erweiterungen die in dieser Bachelorthesis gemacht wurden
+betreffen hauptsächlich das Stack \texttt{cob\_calibration} in dem alle
+Funktionen für die Kalibrierung abgelegt sind. 
+
+Die Kommunikation dieser Nodes kann durch drei verschiedene Systeme erfolgen.
+Die drei Kommunikationswege zwischen den Nodes unterscheiden sich vorallem
+durch die Funktion der beteiligten Kommunikationspartner. 
+
+\begin{description}
+
+  \item[\ac{ROS} Services] Durch die
+    ``Services'' können zwei Nodes direkt miteinander kommunizieren. Hierbei
+    sendet der Client-Node eine Anfrage an den Server-Node, in der bestimmte
+    Parameter übergeben werden. Der Server-Node antwortet auf dem gleichen
+    Weg.
+
+
+  \item[\ac{ROS} Topics]Dem gegenüber gibt es die ``Topics'' in denen beliebig
+    viele Nodes Nachrichten hinterlassen können. Die jeweils aktuellste
+    Nachricht kann dann wiederum von beliebig vielen Nodes gelesen werden. Die
+    Nachrichten enthalten keine Informationen von wem sie gesendet werden, also
+    gibt es für den Empfänger keine Möglichkeit zu antworten oder zu quitieren.
+    Dieses Verfahren wird zum Beispiel beim Verbreiten von Sensordaten
+    eingesetzt.
+
+
+  \item[\ac{ROS} Parameters]Als letztes wird der ``Parameter Server'' für die
+    Speicherung von Daten verwendet. Hier können Daten hinterlegt werden, die
+    immer den gleichen Wert haben und von mehreren Nodes benutzt werden. Ein
+    Beispiel hierfür sind die Kameraparameter oder die Beschreibung des
+    Roboters. 
+
+\end{description}
+
+Die Schnittstellen sind dabei so entwickelt, dass es problemlos möglich ist die
+Nodes auf unterschiedlichen vernetzten Computern auszuführen.  Um geschriebenen
+Code auf anderen Robotern zu verwenden muss also nur dafür gesorgt werden, dass
+alle Kommunikationsschnittstellen vorhanden sind und richtig verwendet werden.
+Durch die modulare Struktur von \ac{ROS} können viele vorhandene Lösungen für
+die eigenen Aufgaben genutzt und angepasst werden.  Außerdem bietet \ac{ROS}
+eine Simulationsumgebung und eine nahtlose Anbindung an andere Softwarepakete
+wie OpenCV.
+
+\begin{figure}[htbp]
+
+\input{images/ros_architecture}
+
+
+\end{figure}
+
+
+Während der Bearbeitungszeit der Thesis wurde auf allen Computern die Version
+``Electric Emys'' eingesetzt.
+
+\section{Stand der Technik bei Begin der Arbeit}
+
+Zu Begin der Arbeit liegt bereits eine vollständige Beschreibung aller
+relevanten Komponenten der zu kalibrierenden Roboter vor. Daraus lässt sich
+sowohl die Vorwärtskinematik, also die Transformation eines Koordinatensystems
+einer Komponente, beispielsweise der Befestigungspunkt der Roboterhand am
+Roboterarm, zu einem anderen Koordinatensystem der selben Komponente zum
+Beispiel der Befestigungspunkt des Arms an der Roboterplattform, anhand von
+Gelenkwinkeln berechnen. Außerdem kann die inverse Kinematik, also die
+benötigten Gelenkwinkel zum erreichen eines bestimmten Punktes, für den Arm
+berechnet werden.
+
+
+\subsection{Kalibrierung}
+
+Der Ausgangszustand der automatischen Kalibrierung lieferte für den 
+\cob 3-3 gute und zuverlässige Ergebnisse. Zur Kalibrierung muss ein
+Kalibrierungsmuster, das für den \cob bisher ein Schachbrettmuster mit neun mal
+sechs inneren Ecken /todo{OpenCV referenzieren} ist, anstatt der
+\ac{SDH} an den Arm montiert werden. Nach dem anschließenden Einstellen der
+Nullwerte für die Aktoren beginnt die erste Datenaufnahme für die Kalibrierung
+der Stereokameras. Eine Microsoft Kinect oder Asus XTion Pro muss aufgrund der
+guten Kalibrierung vom Hersteller nicht kalibriert werden. 
+
+Mit den gewonnenen Daten kann dann der Kalibrieralgorithmus für Stereokameras,
+der von OpenCV bereitgestellt wird sowohl die intrinsischen Kameraparameter als
+auch den Versatz der Kameras zueinander, den sogenannten Baselineshift,
+berechnen.
+
+Mit den jetzt kalibrierten Kameras werden ein zweites mal Daten aufgenommen.
+Hierzu werden der Roboterarm und der Torso in vorher festgelegte Positionen
+gefahren. An jeder Position werden die aktuellen Gelenkwinkel zusammen mit der,
+von den Kameras erkannten, Position des Kalibrierungsmusters aufgenommen.
+
+Im letzten Schritt berechnet ein Optimierer anhand den aufgenommenen Daten die
+gesuchten Transformationen.
+
+Die automatische Kalibrierung des \cob 3-6 konnte jedoch nicht erfolgreich
+ausgeführt werden.  Grund dafür waren einige fest eingestellte Parameter und
+Konfigurationen, die für den \cob 3-6 angepasst werden mussten. Desweiteren
+sind die zu kalibrierenden Transformationen sowie Informationen zu den
+kinematischen Ketten in einer Konfigurationsdatei abgelegt. Diese
+Konfigurationsdatei musste manuell erstellt werden und mit Werten gefüllt
+werden, die aus der Beschreibung des Roboters berechnet wurden. Außerdem
+mussten für alle Aktoren und Manipulatoren die \ac{DH-Parameter} ermittelt und
+eingetragen werden.
+
+Im folgenden werden die vorhanden Konfigurationsdateien mit den in ihnen
+gespeicherten Parametern erklärt.
+\begin{itemize}
+
+  \item[\texttt{system.yaml} ] Die im Package \texttt{cob\_robot\_calibration}
+    für den \cob 3-3 vorhandene \texttt{system.yaml} Datei enthält alle für die
+    Berechnungen des Optimierers benötigten Daten. Dazu gehören:
+
+    \begin{description}
+
+      \item[Transformationen] Alle relevanten festen Transformationen zwischen
+        dem base\_link \todo{ acronym} und den
+        Koordinatensystemen der Kameras und des Kalibrierungsmusters.
+
+      \item[Beschreibungen der kinematischen Ketten] Die Berechnung der
+        Vorwärtskinematik eines Aktors benötigt der Optimierer neben den
+        \acl{DH-Parameter}n auch Informationen zum Übersetzungsverhältnis und
+        zur Genauigkeit der einzelnen Gelenke. Das Übersetzungsverhältnis wird
+        schon im Treiber des Aktors berücksichtigt und ist hier immer mit 1.0
+        anzugeben.
+
+      \item[Kameraparameter] Hier können Kameraparameter definiert werden. Da
+        bei der vorliegenden Kalibrierung aber schon verarbeitete
+        Bildinformationen eingesetzt werden sind hier nur Standardwerte
+        eingetragen.
+
+    \end{description}
+
+\end{itemize}
+
+\begin{description}
+
+  \item[system.yaml]DH-Parameter waren is System.yaml abgelegt/zusätzlich
+    berechnet
+
+  \item[Konfigurationsdatei] Zur Konfiguration eines neuen Roboters mussten
+    alle Transformationen von Hand eingegeben werden
+
+  \item[Stereokamera] Das Stereokamerasystem wurde doppelt Konfiguriert. Einmal
+    während der Stereokamerakalibrierung und einmal während der kinematischen
+
+\end{description}
+
+\subsection{Vorhandene Kalibrieralgorithmen} % (fold)
+\label{sub:Kalibrieralgorithmen}
+Zu Beginn der Arbeit gab es bereits einige Algorithmen zur automatischen
+Kalibrierung der am Roboter eingesetzten Hardwarekomponenten. Die wichtigsteb
+und bereits am \cob implementierten sind die Verfahren zur Kalibrierung von Mono- 
+und Stereokameras die OpenCV zur Verfügung stellt und das von Vijay Pradeep
+entwickelte Verfahren zur Kalibrierung von Robotern mit mehreren Armen und 
+mehreren Sensoren.\todo{Quelle}
+
+
+\subsubsection{Kamerakalibrierung} % (fold)
+\label{ssub:Kamerakalibrierung}
+Um Objekte die von den Kameras erkannt werden in der dreidimensionalen Welt
+einzuordnen muss ein möglichst exaktes mathematisches Modell entwickelt werden,
+nach dem Objektpunkte auf die Sensorfläche projiziert werden. Dazu wird die
+Projektion auf einen Film oder \ac{CCD}-Chip durch eine Kombination des sogenannten Lochkameramodells und des
+modellierten Einflusses von optischen Linsen beschrieben.
+
+Die Lochkamera besteht aus einer geschlossenen Box, in der auf einer Seite
+ein Sensor oder Film angebracht ist. Gegenüber vom Sensor befindet sich ein
+kleines Loch durch das idealerweise nur ein Lichtstrahl pro Objektpunkt auf
+den Sensor trifft. Gemäß den geometrischen Gesetzen ergibt sich ein auf dem 
+Kopf stehendes Abbild des Objektes auf der Bildebene oder dem Sensor. Zur 
+Vereinfachung der Rechnung kann eine virtuelle Bildebene vor der Kamera 
+angenommen werden, die durch eine Punktspiegelung der Bildebene am optischen
+Zentrum erzeugt werden kann. Im Vergleich zur Berechnung für die Bildebene
+sind die Werte hierbei invertiert.\todo{Quelle}
+\begin{figure}[htpb]
+  \centering
+  \def\svgwidth{\textwidth}
+  \input{images/Lochkamera.pdf_tex}
+  \caption{Prinzipskizze einer Lochkamera}
+  \label{fig:Lochkamera}
+\end{figure}
+Der Abstand von optischem Zentrum zur (virtuellen) Bildebene wird Fokallänge
+$f$ genannt \ref{fig:Lochkamera}  Der Punkt $P$ wird durch die Projektion auf den Sensor zum Punkt $P'$
+mit den Koordinaten $(x^*,y^*)$. Da die Dreiecke $C,M,P'$ und $C,0,P$ ähnlich sind gilt:
+\begin{equation}
+  \frac{y^*}{f}=\frac{y}{b} \Rightarrow y^*=\frac{y}{b}*f
+\end{equation}
+Genauso gilt für $x^*$:
+\begin{equation}
+  x^*=\frac{x}{b}*f
+\end{equation}
+
+Da der Ursprung des Sensorkoordinatensystems aufgrund von Konventionen und Ungenauigkeiten
+bei der Kameramontage in den seltensten Fällen mit der optischen Achse der Kamera
+übereinstimmt werden die projizierten Punkte noch um $c_x$ und $c_y$ verschoben.
+
+Eine weitere Besonderheit bei digitalen Kameras ist die Form der Pixel auf dem 
+Sensor. Da diese Rechteckig sind müssen im Modell verschiedene Werte $f_x$ und $f_y$ für die 
+Fokallänge angenommen werden. 
+
+Wenn diese beiden Besonderheiten berücksichtigt werden und in Vektorschreibweise dargestellt 
+werden ergibt sich
+\begin{equation}
+  \begin{pmatrix}
+    x^*\\y^*
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    \frac{x}{b}*f_x+c_x \\
+    \frac{y}{b}*f_y+c_y 
+  \end{pmatrix}
+ \end{equation}
+
+Um die Projektion durch eine Matrixmultiplikation zu berechnen wird die homogene 
+Projektionsmatrix $Pr$ berechnet. Dazu werden die Vektoren $P=\left(x,y,b\right)^T$ und $P^*=\left(x^*,y^*\right)^T$ zu den 
+homogenen Vektoren $\tilde{P}=\left(x,y,b,1\right)^T$ und $\tilde{P^*}=\left(u^*,v^*,w^*\right)^T$ 
+erweitert.
+
+Die Berechnung der Projektion erfolgt jetzt durch
+\begin{equation}
+  \tilde{P^*}=Pr*\tilde{P}
+\end{equation}
+\begin{equation}
+  \tilde{P^*}=
+  \begin{pmatrix}
+  u^*\\v^*\\w^*
+  \end{pmatrix}
+  =
+  \begin{bmatrix}
+    f_x&0&c_x&0\\
+    0&f_y&c_y&0\\
+    0&0&1&0
+  \end{bmatrix}
+  *
+  \begin{pmatrix}
+    x\\y\\b\\1
+  \end{pmatrix}
+\end{equation}.
+
+
+
+Zur Umrechnung von homogenen in nicht homogene Koordinaten berücksichtigt man, dass Punkte mit dem gleichen Verhältnis der Komponenten
+gleich sind. Außerdem gilt für $w^*=1$
+\begin{equation}
+	\tilde{P^*}=u^*,v^*,w^*
+	\begin{pmatrix}
+	  u^*\\v^*\\w^*
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+	  x^*\\y^*\\1
+	\end{pmatrix}
+\end{equation}.
+
+Daraus folgt:
+
+\begin{equation}
+	P^*=
+	\begin{pmatrix}
+	  x^*\\
+	  y^*
+	\end{pmatrix}
+	=
+	\frac{1}{w^*}*
+	\begin{pmatrix}
+	  u^*\\
+	  v^*
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+	  \frac{u^*}{w^*}\\
+	  \frac{v^*}{w^*}
+	\end{pmatrix}
+\end{equation}
+
+Bei der Kalibrierung einer Kamera wird also die Projektionsmatrix $Pr$ oder die
+Kameramatrix $K$ berechnet wobei gilt, dass 
+\begin{equation}
+  Pr=
+  \begin{bmatrix}
+    f_x&0&c_x&0\\
+    0&f_y&c_y&0\\
+    0&0&1&0
+  \end{bmatrix}
+  =
+  \left[K \left(0,0,0\right)^T\right]
+\end{equation}.
+
+Der größte Nachteil bei Lochkameras ist die geringe Lichtmenge die durch das Loch
+auf den Sensor fällt. Dadurch würde der Aufnahmevorgang für ein Bild sehr lange
+brauchen bis genug Licht auf den Sensor gefallen ist.
+
+Um diesen Nachteil auszugleichen werden in Kameras Linsen verwendet die das Licht
+bündeln um mehr Licht auf den Senor fallen zu lassen. Durch Linsen werden allerdings 
+neue Abbildungscharakteristiken eingeführt, die im Modell berücksichtigt werden müssen.
+Da es nur zwei Charakteristiken gibt, die einen nennenswerten Einfluss auf das Bild haben
+kann das Modell einfach erweitert werden. Diese beiden Einflüsse entstehen aufgrund der
+Linsenform und der Einbaulage des Sensors gegenüber der optischen Achse. 
+
+Eine parabolische Linse oder ein komplexes Linsensystem hat nur einen geringen Einfluss
+auf die Abbildung. Da aber häufig nur günstige sphärische Linsen eingesetzt werden
+muss die radiale Verzeichnung korrigiert werden. Der Effekt nimmt ausgehend vom 
+optischen Zentrum zu und ist rotationssymetrisch dazu. Die radiale Verzeichnung 
+kann durch die ersten sieben Glieder einer Taylorreihe $f(x)=a_0+a_1*x+a_2*x^2+\cdots+a_n*x^n$
+beschrieben werden. Aus der Symmetrie folgt, dass alle ungeraden Glieder gleich Null sind.
+Außerdem ist die Verzeichnung am Mittelpunkt gleich Null. Deswegen ist auch $a_0=0$.
+
+Die korrigierten Bildpunkte ergeben sich damit zu
+
+  \begin{align}
+ 	x_korr=x*(1+k_1*r^2+k_2*r^4+k_3*r^6)\\
+	y_korr=y*(1+k_1*r^2+k_2*r^4+k_3*r^6)
+  \end{align}.
+
+Die Verzerrung durch eine nicht optimale Einbaulage lässt sich durch die zwei Parameter
+$p_1$ und $p_2$ beschreiben.
+
+Der am \cob eingesetzte Kalibrieralgorithmus wurde von Zhang und Sturm entwickelt
+und basiert auf der Erkennung eines definierten Musters. Dazu werden Bilder von dem 
+Objekt aufgenommen und wichtige Punkte - im Fall des \cob Ecken eines Schachbretts - 
+erkannt und zusammen mit einem Modell des Musters an den Kalibrieralgorithmus übergeben.
+Dieser geht im ersten Schritt von einer Lochkamera ohne Verzerrungen durch Linsen aus.
+Anschließend wird der Parametervektor $\left[k_1,k_2,p_1,p_2,k_3\right]$ berechnet. 
+Man erhält also alle wichtigen Parameter um einen Punkt im Raum auf einen Punkt auf dem
+Sensor zu projizieren oder einem Punkt auf dem Sensor eine Linie im Raum zuzuordnen.
+
+Außerdem kann dadurch die Pose eines bekannten Objekts im Raum berechnet werden. 
+\paragraph{Stereokamerakalibrierung} % (fold)
+\label{par:Stereokamerakalibrierung}
+Ein Stereokamerasystem besteht, ähnlich wie ein menschliches Augenpaar, aus zwei
+Kameras mit überlappendem Sichtfeld. Mit den aus den zwei Kamerabildern gewonnenen
+Informationen über einen Punkt lässt sich die genaue Position des Punktes im 
+Raum berechnen. Bei einem idealen Stereokamerasystem liegen beide Bildebenen  auf 
+einer Ebene und die Transformation von einer zur anderen Kamera kann nur durch eine
+Translation entlang der X-Achse ausgedrückt werden. Dadurch sind auch alle Pixelreihen
+aneinander ausgerichtet. Wenn diese Bedingungen erfüllt sind, kann der Abstand eines 
+Punktes von der Ebene parallel zu den Bildebenen durch die optischen Zentren der
+Kameras durch 
+\begin{equation}
+  Z=\frac{f*T}{a-b}
+\end{equation}
+berechnet werden.
+
+
+\begin{figure}[htpb]
+  \centering
+    \def\svgwidth{\textwidth}
+  \input{images/Stereo_Prinzip.pdf_tex}
+  \caption{Draufsicht eines idealen Stereokamerapaares}
+  \label{fig:DraufStereo}
+\end{figure}
+
+Da in der Praxis keine genaue Ausrichtung der Kameras möglich ist, muss die Transformation 
+durch eine 6D Transformation angegeben werden. Aus dieser Transformation und den intrinsischen 
+Kameraparametern kann dann ein neues Bild berechnet werden, in dem alle idealen 
+Bedingungen erfüllt sind.
+
+Die Kalibrierung eines Stereokamerapaares benötigt also zusätzlich zu den Parametern
+für eine Kamera die Transformation zwischen den Kameras bestehend aus einem 3D 
+Translationsvektor und einer 3x3 Rotationsmatrix.
+
+Zur Kalibrierung werden wie bei der Monokamerakalibrierung Bilder von einem definierten 
+Objekt aufgenommen. Hierbei ist es wichtig, dass das Objekt auf beiden Bildern zu sehen ist.
+Daraus wird die 6D Pose des Objekts für jede Kamera berechnet. Wie in \missingfigure{Transformationen}
+dargestellt ergibt sich für die Rotationsmatrix
+
+\begin{figure}[htpb]
+  \centering
+    \def\svgwidth{\textwidth}
+  \input{images/Stereo_Transformation.pdf_tex}
+  \caption{Transformationen im Stereokamerasystem}
+  \label{fig:StereoTrans}
+\end{figure}
+
+
+\begin{equation}
+	R=R_1*(R_2)^T
+\end{equation}
+und für den Translationsvektor
+\begin{equation}
+	T=T_1-R*T_2
+\end{equation}
+
+% paragraph Stereokamerakalibrierung (end)
+
+% subsubsection Kamerakalibrierung (end)
+% subsection Kalibrieralgorithmen (end)
+für einen roboter und aufwendig zu erstellen Stereokamera Kinematik von Arm und
+Torso(teilweise)
+
+\section{Aufgaben} erweiterung auf alle Roboter automatisches erstellen von
+Konfiguration Anpassen des Optimierers um Transformationen aus vorhandenen
+Diensten berechnen zu lassen.
+
+
+Torso ganz(referenz gelenkwerte)
+
+Laserscan - Erkennen von Calibration Pattern in 2d entfernungs slice Pattern
+O-O -> Hough Circles, Hough Lines, Line mit geringstem Fehler zu den 2 Circles
+ist Calibration Line --> Ausrichtung und abstand bekannt - Erkennen von
+Calibration Pattern in Kamerabild --> 6DOF Pose bekannt - Optimierer zur
+ausrichtung (6DOF)
+
+
+
+
+Tablet
+
+%
+% EOF
+%p

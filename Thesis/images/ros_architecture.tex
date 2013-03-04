@@ -1,0 +1,67 @@
+
+
+
+
+% Define a few styles and constants
+\tikzstyle{pc}=[draw, fill=blue!20, text width=5em, text centered, minimum height=2.5em, minimum width=20em]
+
+\tikzstyle{node}=[pc, fill=black!20, text centered]
+
+\tikzstyle{ros} = [pc, text width=10em, fill=red!20, 
+    minimum height=3em, rounded corners]
+    
+\tikzstyle{hw} = [text centered]
+\resizebox{\textwidth}{!}{
+\begin{tikzpicture}[>=triangle 60]
+
+
+\node [pc](pc1)  {PC1 (Ubuntu)};
+\node [pc](pc2)[right=2of pc1] {PC2 (Ubuntu)};
+
+
+\node [node](armc) [above=10em of pc1.west, anchor=west,  minimum width=9em]{arm\_controller};
+
+\node [node](camd) [above=10em of pc2.west, anchor=west]{camera\_driver};
+
+
+\node [node](coll) [above=10em of pc1.east, anchor=east,  minimum width=9em]{collect\_data};
+
+\node [hw](cam) [below=4em of pc2.east, anchor=east]{Kamera};
+
+\node [hw](arm) [below=4em of pc1.west, anchor=west]{Roboterarm};
+
+
+
+
+\draw [<-](cam) -- (cam |- camd.south);
+\draw [<-](arm) -- (arm |- armc.south);
+
+\node (ros) [ros][above=5em of pc1, fit={(pc1) (pc2)}] {ROS Framework};
+
+\draw (pc2) -- (pc2 |- ros.south);
+\draw (pc1) -- (pc1 |- ros.south);
+\draw (pc1) -- (pc2);
+\let \p1 = (ros) 
+\let \p2 = (pc1)
+\draw [->]
+ let 
+ \p1 = (ros), 
+ \p2 = (coll.south),
+ \p3 = (armc.south)
+ in
+ (\x2-2em,\y2) -- (\x2-2em,\y1-1em) -- (\x3+2em,\y1-1em) -- (\x3+2em,\y3);
+ 
+\draw [->]
+ let 
+ \p1 = (ros), 
+ \p2 = (camd.south),
+ \p3 = (coll.south)
+ in
+ (\x2-2em,\y2) -- (\x2-2em,\y1-1em) -- (\x3+2em,\y1-1em) -- (\x3+2em,\y3);
+
+
+
+ 
+\end{tikzpicture}}
+
+

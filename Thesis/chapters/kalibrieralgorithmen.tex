@@ -1,0 +1,278 @@
+
+\section{Kalibrieralgorithmen} % (fold)
+
+\label{sub:Kalibrieralgorithmen}
+
+
+Zu
+Beginn der Arbeit gab es bereits einige Algorithmen zur automatischen
+Kalibrierung der am Roboter eingesetzten Hardwarekomponenten. Die wichtigsten
+und bereits am \cob implementierten sind die Verfahren zur Kalibrierung von
+Mono- und Stereokameras, die OpenCV \footnote{Open Computer Vision: Eine 
+Open-Source Softwarebibliothek die Funktionen zur Bildverarbeitung bereitstellt}
+zur Verfügung stellt und das von Vijay
+Pradeep entwickelte Verfahren zur Kalibrierung von Robotern mit mehreren Armen
+und mehreren Sensoren.\cite{Pradeep2010}
+
+
+\subsection{Kamerakalibrierung} % (fold)
+
+\label{sub:Kamerakalibrierung}
+
+
+Um
+Objekte, die von den Kameras erkannt werden, in der dreidimensionalen Welt
+einzuordnen, muss ein möglichst exaktes mathematisches Modell entwickelt werden,
+nach dem Objektpunkte auf die Sensorfläche projiziert werden. Außerdem müssen
+die Parameter des Stereokamerasystems für die Bestimmung von Tiefendaten aus
+zwei Einzelbildern bekannt sein. Da diese Parameter nicht am
+Roboter oder der Kamera abgemessen werden können, wird auf Methoden der
+Bildverarbeitung zurückgegriffen.
+
+\subsubsection{Monokamerakalibrierung} % (fold)
+
+\label{ssub:Monokamera}
+
+
+Zur Berechnung der Projektion eines Punktes im Raum auf einen Film oder
+Bildsensor muss ein Modell erzeugt werden, das die Abbildungseigenschaften
+einer Kamera möglichst einfach, aber genau genug wiedergibt. Dieses Modell kann
+durch eine Kombination des sogenannten Lochkameramodells und des modellierten
+Einflusses von optischen Linsen beschrieben werden \cite{Bradski2008}.
+
+Die Lochkamera besteht, wie in Abbildung \ref{fig:Lochkamera} aus einer 
+geschlossenen Box, in der auf einer Seite ein
+Sensor oder Film angebracht ist. Gegenüber vom Sensor befindet sich ein kleines
+Loch, das optische Zentrum C, durch das idealerweise nur ein Lichtstrahl pro
+Objektpunkt auf den Sensor
+trifft. Gemäß den geometrischen Gesetzen ergibt sich ein auf dem Kopf stehendes
+Abbild des Objektes auf der Bildebene oder dem Sensor. Zur Vereinfachung der
+Rechnung kann eine virtuelle Bildebene vor der Kamera angenommen werden, die
+durch eine Punktspiegelung der Bildebene am optischen Zentrum erzeugt werden
+kann. Im Vergleich zur Berechnung für die Bildebene sind die Werte hierbei
+invertiert\cite{forsyth2011}.
+
+
+\begin{figure}[htpb]
+  \centering
+  \def\svgwidth{\textwidth}
+  \input{images/Lochkamera.pdf_tex}
+  \caption{Prinzipskizze einer Lochkamera }
+  \label{fig:Lochkamera}
+\end{figure}
+
+
+Der Abstand von optischem Zentrum zur (virtuellen) Bildebene wird Fokallänge
+$f$ genannt \ref{fig:Lochkamera}. Der Punkt $P$ wird durch die Projektion auf
+den Sensor zum Punkt $P'$ mit den Koordinaten $(x^*,y^*)$. Da die Dreiecke
+$C,M,P*$ und $C,0,P$ ähnlich sind gilt: \begin{equation}
+  \frac{y^*}{f}=\frac{y}{b} \Rightarrow y^*=\frac{y}{b}*f \end{equation}
+Genauso gilt für $x^*$: \begin{equation} x^*=\frac{x}{b}*f \end{equation}
+
+Da der Ursprung des Sensorkoordinatensystems aufgrund von Konventionen und
+Ungenauigkeiten bei der Kameramontage in den seltensten Fällen mit der
+optischen Achse der Kamera übereinstimmt werden die projizierten Punkte noch um
+$c_x$ und $c_y$ verschoben.
+
+Eine weitere Besonderheit bei digitalen Kameras ist die Form der Pixel auf dem
+Sensor. Da diese Rechteckig sind müssen im Modell verschiedene Werte $f_x$ und
+$f_y$ für die Fokallänge angenommen werden.\cite{Bradski2008}
+
+Wenn diese beiden Besonderheiten berücksichtigt und in
+Vektorschreibweise dargestellt werden, ergibt sich \begin{equation}
+  \begin{pmatrix} x^*\\y^* \end{pmatrix} = \begin{pmatrix} \frac{x}{b}*f_x+c_x
+    \\ \frac{y}{b}*f_y+c_y \end{pmatrix} \end{equation}
+
+
+Um die Projektion durch eine Matrixmultiplikation zu berechnen wird die
+homogene Projektionsmatrix $Pr$ berechnet. Dazu werden die Vektoren
+$P=\left(x,y,b\right)^T$ und $P^*=\left(x^*,y^*\right)^T$ zu den homogenen
+Vektoren $\tilde{P}=\left(x,y,b,1\right)^T$ und
+$\tilde{P^*}=\left(u^*,v^*,w^*\right)^T$ erweitert.
+
+Die Berechnung der Projektion erfolgt jetzt durch \begin{equation}
+  \tilde{P^*}=Pr*\tilde{P} \end{equation} \begin{equation} \tilde{P^*}=
+  \begin{pmatrix} u^*\\v^*\\w^* \end{pmatrix} = \begin{bmatrix} f_x&0&c_x&0\\
+    0&f_y&c_y&0\\ 0&0&1&0 \end{bmatrix} * \begin{pmatrix} x\\y\\b\\1
+  \end{pmatrix} \end{equation}. \cite{Bradski2008}
+
+
+
+Zur Umrechnung von homogenen in nicht homogene Koordinaten berücksichtigt man,
+dass Punkte mit dem gleichen Verhältnis der Komponenten gleich sind. Außerdem
+gilt für $w^*=1$
+
+\begin{equation}
+  \tilde{P^*}
+  \begin{pmatrix}
+    u^*\\v^*\\w^* \end{pmatrix} = \begin{pmatrix} x^*\\y^*\\1 \end{pmatrix}
+\end{equation}.
+
+Daraus folgt:
+
+\begin{equation} P^*= \begin{pmatrix} x^*\\ y^* \end{pmatrix} = \frac{1}{w^*}*
+  \begin{pmatrix} u^*\\ v^* \end{pmatrix} = \begin{pmatrix} \frac{u^*}{w^*}\\
+    \frac{v^*}{w^*} \end{pmatrix} \end{equation}
+
+Bei der Kalibrierung einer Kamera wird also die Projektionsmatrix $Pr$ oder die
+Kameramatrix $K$ berechnet wobei gilt, dass \begin{equation} Pr=
+  \begin{bmatrix} f_x&0&c_x&0\\ 0&f_y&c_y&0\\ 0&0&1&0 \end{bmatrix} = \left[K
+  \left(0,0,0\right)^T\right] \end{equation}.
+
+Der größte Nachteil bei Lochkameras ist die geringe Lichtmenge die durch das
+Loch auf den Sensor fällt. Dadurch würde der Aufnahmevorgang für ein Bild sehr
+lange brauchen bis genug Licht auf den Sensor gefallen ist.
+
+Um diesen Nachteil auszugleichen werden in Kameras Linsen verwendet die das
+Licht bündeln um mehr Licht auf den Senor fallen zu lassen. Durch Linsen werden
+allerdings neue Abbildungscharakteristiken eingeführt, die im Modell
+berücksichtigt werden müssen. Da es nur zwei Charakteristiken gibt, die einen
+nennenswerten Einfluss auf das Bild haben, kann das Modell einfach erweitert
+werden. Diese beiden Einflüsse entstehen aufgrund der Linsenform und der
+Einbaulage des Sensors gegenüber der optischen Achse. 
+
+Eine parabolische Linse oder ein komplexes Linsensystem hat nur einen geringen
+Einfluss auf die Abbildung. Da aber häufig nur günstige sphärische Linsen
+eingesetzt werden muss die radiale Verzeichnung korrigiert werden. Der Effekt
+nimmt ausgehend vom optischen Zentrum zu und ist rotationssymetrisch dazu. Die
+radiale Verzeichnung kann durch die ersten sieben Glieder einer Taylorreihe
+$f(x)=a_0+a_1*x+a_2*x^2+\cdots+a_n*x^n$ beschrieben werden. Aus der Symmetrie
+folgt, dass alle ungeraden Glieder gleich Null sind. Außerdem ist die
+Verzeichnung am Mittelpunkt gleich Null. Deswegen ist auch $a_0=0$.
+
+Die korrigierten Bildpunkte ergeben sich damit zu 
+  \begin{align} x_{korr}=x*(1+k_1*r^2+k_2*r^4+k_3*r^6)\\
+    y_{korr}=y*(1+k_1*r^2+k_2*r^4+k_3*r^6) \end{align}.
+
+Die Verzerrung durch eine nicht parallele Einbaulage des Sensors zur Linse lässt
+sich durch die zwei
+Parameter $p_1$ und $p_2$ beschreiben \cite{Bradski2008}.
+
+Der am \cob eingesetzte Kalibrieralgorithmus wurde von Zhang und Sturm
+entwickelt und basiert auf der Erkennung eines definierten Musters. Dazu werden
+Bilder von dem Objekt aufgenommen und wichtige Punkte - im Fall des \cob Ecken
+eines Schachbretts - erkannt und zusammen mit einem Modell des Musters an den
+Kalibrieralgorithmus übergeben. Dieser geht im ersten Schritt von einer
+Lochkamera ohne Verzerrungen durch Linsen aus. Anschließend wird der
+Parametervektor $\left[k_1,k_2,p_1,p_2,k_3\right]$ berechnet.\cite{zhang2000flexible}
+Man erhält also alle wichtigen Parameter um einen Punkt im Raum auf einen Punkt auf dem Sensor
+zu projizieren oder einem Punkt auf dem Sensor eine Linie im Raum zuzuordnen.
+
+Außerdem kann dadurch die Pose eines bekannten Objekts im Raum berechnet
+werden. 
+
+% subsubsection Monokamerakalibrierung (end)
+
+\subsubsection{Stereokamerakalibrierung} % (fold)
+\label{sssec:Stereokamerakalibrierung} Ein Stereokamerasystem besteht, ähnlich
+wie ein menschliches Augenpaar, aus zwei Kameras mit überlappendem Sichtfeld.
+Mit den aus den zwei Kamerabildern gewonnenen Informationen über einen Punkt
+lässt sich die genaue Position des Punktes im Raum berechnen. Bei einem idealen
+Stereokamerasystem, wie in \ref{fig:DraufStereo} dargestellt, liegen beide
+Bildebenen auf einer Ebene und die Transformation von einer zur anderen Kamera
+kann durch eine Translation entlang der X-Achse ausgedrückt werden. Dadurch
+sind auch alle Pixelreihen aneinander ausgerichtet. Wenn diese Bedingungen erfüllt sind, kann der Abstand
+eines Punktes von der Ebene parallel zu den Bildebenen durch die optischen
+Zentren der Kameras durch \begin{equation} Z=\frac{f*T}{a-b} \end{equation}
+berechnet werden. Dabei ist $a$ die X-Koordinate des Punktes in Kamera 1 und 
+$b$ die X-Koordinate des Punktes in Kamera 2.
+
+
+\begin{figure}[htpb] \centering \def\svgwidth{\textwidth}
+  \input{images/Stereo_Prinzip.pdf_tex} \caption{Draufsicht eines idealen
+  Stereokamerapaares} \label{fig:DraufStereo} \end{figure}
+
+Da in der Praxis keine ideale Ausrichtung der Kameras möglich ist, muss die
+Transformation durch eine 6D Transformation angegeben werden. Aus dieser
+Transformation und den intrinsischen Kameraparametern kann dann ein neues Bild
+berechnet werden, in dem alle Bedingungen erfüllt sind.
+
+Die Kalibrierung eines Stereokamerapaares benötigt also zusätzlich zu den
+Parametern für eine Kamera die Transformation zwischen den Kameras bestehend
+aus einem 3D Translationsvektor und einer 3x3 Rotationsmatrix.
+
+Zur Kalibrierung werden wie bei der Monokamerakalibrierung Bilder von einem
+definierten Objekt aufgenommen. Hierbei ist es wichtig, dass das Objekt auf
+beiden Bildern zu sehen ist. Daraus wird die 6D Pose des Objekts für jede
+Kamera berechnet. Wie in Figur~\ref{fig:StereoTrans} dargestellt ergibt sich
+für die Rotationsmatrix
+
+\begin{figure}[htpb] \centering \def\svgwidth{\textwidth}
+  \input{images/Stereo_Transformation.pdf_tex} \caption{Transformationen im
+  Stereokamerasystem} \label{fig:StereoTrans} \end{figure}
+
+
+\begin{equation} R=R_1*(R_2)^T \end{equation} und für den Translationsvektor
+\begin{equation} T=T_1-R*T_2 \end{equation}
+
+Obwohl es möglich ist die gesuchte Transformation aus einem Bildpaar zu
+berechnen, werden mehrere Paare aufgenommen um Bildrauschen und andere
+Störeinflüsse zu kompensieren. Dazu wird der Median der gefundenen
+Transformationen als Startwert für ein Optimierungsverfahren verwendet, das
+zuverlässig die beste Lösung findet.
+
+Mit den gefundenen Parametern können anschließend die Rectifizierungsmatrizen
+für beide Kameras berechnet werden, die auf die Bilder angewendet ein Bildpaar
+ergeben, bei den das alle Bedingungen für ein ideales Stereokamerasystem zutreffend
+sind \cite{Bradski2008}.
+% subsubsection Stereokamerakalibrierung (end)
+
+% subsection Kamerakalibrierung (end) section Kalibrieralgorithmen (end)
+
+
+\subsection{Kinematische Kalibrierung} % (fold) 
+
+\label{sub:Kinematische Kalibrierung}
+
+Zur Kinematischen Kalibrierung des Roboters wird ein Verfahren
+verwendet, das auf dem Kalibrierverfahren für den PR2 von Vijay Pradeep basiert
+\cite{Pradeep2010}.
+Nach der Festlegung, welche Transformationen kalibriert werden sollen, werden
+Pfade festgelegt, über die transformiert wird. Diese Pfade haben einen
+gemeinsamen Ausgangspunkt und als Endpunkt entweder einen Sensor oder ein
+detektierbares Objekt. Außerdem müssen alle vorher festgelegten
+Transformationen in den Pfaden enthalten sein. In Abbildung \ref{fig:pfade}
+sind zwei Pfade dargestellt. Pfad 1 geht vom Ursprungskoordinatensystem zu dem
+detektierbaren Objekt und enthält neben der bekannten Koordinatentransformation
+des Roboterarmes auch die zwei unbekannten Montagepositionen des Arms auf der
+Basis und des Kalibrierobjekts am Arm. In Pfad 2 sind die Transformation von
+der Basis zum Torso und vom Torso zur Kamera unbekannt. Die gesamten Pfade 1 und
+2 sind in Grün dargestellt und setzen sich aus den roten festen Transformationen
+und den schwarzen variablen Transformationen zusammen.
+
+\begin{figure}[Htbp] \centering \def\svgwidth{0.7\textwidth}
+  \input{images/Pfad_Kinematik.pdf_tex} \caption{Transformationspfade des \cob} \label{fig:pfade} \end{figure}
+
+Im Anschluss werden Positionen für die in den Pfaden eingeschlossenen Aktoren
+festgelegt, in denen das Kalibrierobjekt von allen Sensoren detektiert werden
+kann. Außerdem müssen vorgegebene Transformationen und Konfigurationen für den
+Optimierer bereitgestellt werden. Diese Schritte müssen für jeden Roboter
+einmalig ausgeführt werden und sind direkt von der Hardware abhängig. 
+
+Im darauf folgenden Datenaufnahmeschritt werden an jeder vorher definierten
+Position die Sensordaten zusammen mit den aktuellen Gelenkwinkeln der Aktoren
+aufgenommen. Diese Daten werden dann an den Optimierer übergeben.
+
+Der Optimierer basiert auf dem Levenberg-Marquardt Verfahren\cite[Abschnitt 1]{pr2_estimation}.
+Hierbei werden
+für den \cob drei Durchläufe des Optimiers genutzt, wobei in jedem Schritt
+weitere Parameter zur Optimierung freigegeben werden. Dadurch können lokale
+Minima vermieden werden.
+
+Zur Bestimmung des aktuellen Fehlers werden die während der Datenaufnahme
+gespeicherten Gelenkwerte in ein Modell des Roboters eingesetzt. Dazu müssen
+die \ac{DH-Parameter} der Aktoren sowie alle anderen Transformationen zumindest
+näherungsweise bekannt sein. Durch das Modell können dann die markanten Punkte
+des Kalibrierobjektes und die Position der Sensoren im Raum berechnet werden.
+Die modellierten Punkte lassen sich anschließend über die Sensorparameter in
+simulierte Messwerte umrechnen. Der Fehler der durch Modifikationen an einzelnen
+Transformationen am Modell minimiert werden soll, ist die Differenz der
+berechneten und der gemessenen Messwerte \cite{levi2012autonomous}.
+Die Fehlerberechnung wird außerdem genutzt, um die Jacobimatrix für die Optimierung zu berechnen. Dazu werden alle
+vorhandenen Parameter einzeln variiert um den Einfluss auf den Fehler zu berechnen.
+Im nächsten Schritt werden die Parameter dann gezielt in die richtige Richtung
+geändert \cite{forsyth2011}.
+
+% subsection Kinematische Kalibrierung (end)
+
+
