@@ -31,8 +31,8 @@ durch die Funktion der beteiligten Kommunikationspartner.
   \item[\ac{ROS} Topics]Dem gegenüber gibt es die ``Topics'' in denen beliebig
     viele Nodes Nachrichten hinterlassen können. Die jeweils aktuellste
     Nachricht kann dann wiederum von beliebig vielen Nodes gelesen werden. Die
-    Nachrichten enthalten keine Informationen von wem sie gesendet werden, also
-    gibt es für den Empfänger keine Möglichkeit zu antworten oder zu quitieren.
+    Nachrichten enthalten keine Informationen, von wem sie gesendet werden, also
+    gibt es für den Empfänger keine Möglichkeit, zu antworten oder zu quitieren.
     Dieses Verfahren wird zum Beispiel beim Verbreiten von Sensordaten
     eingesetzt.
 
@@ -129,9 +129,10 @@ Im folgenden werden die vorhanden Konfigurationsdateien mit den in ihnen
 gespeicherten Parametern erklärt.
 
 
-\begin{itemize}
 
-  \item[\texttt{system.yaml} ] Die im Package \texttt{cob\_robot\_calibration}
+\subsection{texttt{system.yaml}}
+
+Die im Package \texttt{cob\_robot\_calibration}
     für den \cob 3-3 vorhandene \texttt{system.yaml} Datei enthält alle für die
     Berechnungen des Optimierers benötigten Daten. Dazu gehören:
 
@@ -156,7 +157,7 @@ gespeicherten Parametern erklärt.
 
     \end{description}
 
-  \item[\texttt{sensors.yaml}] In der Konfigurationsdatei werden die Ketten aus
+  \subsection{texttt{sensors.yaml}} In der Konfigurationsdatei werden die Ketten aus
     denen der Roboter zusammengesetzt werden kann definiert. Dazu wird in
     \texttt{camera\_chains} die die Ketten zu den Kameras angeben und 
     \texttt{chains}, die die kinematische Kette zum Kalibrierobjekt beschreiben
@@ -169,20 +170,19 @@ gespeicherten Parametern erklärt.
     und der \texttt{after\_chain} für die feste Transformation vom Ende des Aktors
     zum Ursprung des Sensors oder Kalibrierobjekts.
 
-  \item[\texttt{free\_x.yaml}] Die drei \texttt{free\_x.yaml} Dateien haben den 
+  \subsection{texttt{free\_x.yaml}} Die drei \texttt{free\_x.yaml} Dateien haben den 
     gleichen Aufbau wie die \texttt{system.yaml}. Sie werden benötigt um dem 
     Optimierer mitzuteilen, wann welche Parameter variabel sind.
-\end{itemize}
 
 
 \input{chapters/koordinatentrans}
 \input{chapters/kalibrieralgorithmen}
 
-Laserscan - Erkennen von Calibration Pattern in 2d entfernungs slice Pattern
-O-O -> Hough Circles, Hough Lines, Line mit geringstem Fehler zu den 2 Circles
-ist Calibration Line --> Ausrichtung und abstand bekannt - Erkennen von
-Calibration Pattern in Kamerabild --> 6DOF Pose bekannt - Optimierer zur
-ausrichtung (6DOF)
+%Laserscan - Erkennen von Calibration Pattern in 2d entfernungs slice Pattern
+%O-O -> Hough Circles, Hough Lines, Line mit geringstem Fehler zu den 2 Circles
+%ist Calibration Line --> Ausrichtung und abstand bekannt - Erkennen von
+%Calibration Pattern in Kamerabild --> 6DOF Pose bekannt - Optimierer zur
+%ausrichtung (6DOF)
 
 
 

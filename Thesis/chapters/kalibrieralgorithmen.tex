@@ -71,11 +71,11 @@ Genauso gilt für $x^*$: \begin{equation} x^*=\frac{x}{b}*f \end{equation}
 
 Da der Ursprung des Sensorkoordinatensystems aufgrund von Konventionen und
 Ungenauigkeiten bei der Kameramontage in den seltensten Fällen mit der
-optischen Achse der Kamera übereinstimmt werden die projizierten Punkte noch um
+optischen Achse der Kamera übereinstimmt, werden die projizierten Punkte noch um
 $c_x$ und $c_y$ verschoben.
 
 Eine weitere Besonderheit bei digitalen Kameras ist die Form der Pixel auf dem
-Sensor. Da diese Rechteckig sind müssen im Modell verschiedene Werte $f_x$ und
+Sensor. Da diese Rechteckig sind, müssen im Modell verschiedene Werte $f_x$ und
 $f_y$ für die Fokallänge angenommen werden.\cite{Bradski2008}
 
 Wenn diese beiden Besonderheiten berücksichtigt und in
@@ -84,7 +84,7 @@ Vektorschreibweise dargestellt werden, ergibt sich \begin{equation}
     \\ \frac{y}{b}*f_y+c_y \end{pmatrix} \end{equation}
 
 
-Um die Projektion durch eine Matrixmultiplikation zu berechnen wird die
+Um die Projektion durch eine Matrixmultiplikation zu berechnen, wird die
 homogene Projektionsmatrix $Pr$ berechnet. Dazu werden die Vektoren
 $P=\left(x,y,b\right)^T$ und $P^*=\left(x^*,y^*\right)^T$ zu den homogenen
 Vektoren $\tilde{P}=\left(x,y,b,1\right)^T$ und
@@ -115,16 +115,16 @@ Daraus folgt:
     \frac{v^*}{w^*} \end{pmatrix} \end{equation}
 
 Bei der Kalibrierung einer Kamera wird also die Projektionsmatrix $Pr$ oder die
-Kameramatrix $K$ berechnet wobei gilt, dass \begin{equation} Pr=
+Kameramatrix $K$ berechnet, wobei gilt, dass \begin{equation} Pr=
   \begin{bmatrix} f_x&0&c_x&0\\ 0&f_y&c_y&0\\ 0&0&1&0 \end{bmatrix} = \left[K
   \left(0,0,0\right)^T\right] \end{equation}.
 
-Der größte Nachteil bei Lochkameras ist die geringe Lichtmenge die durch das
+Der größte Nachteil bei Lochkameras ist die geringe Lichtmenge, die durch das
 Loch auf den Sensor fällt. Dadurch würde der Aufnahmevorgang für ein Bild sehr
-lange brauchen bis genug Licht auf den Sensor gefallen ist.
+lange brauchen, bis genug Licht auf den Sensor gefallen ist.
 
-Um diesen Nachteil auszugleichen werden in Kameras Linsen verwendet die das
-Licht bündeln um mehr Licht auf den Senor fallen zu lassen. Durch Linsen werden
+Um diesen Nachteil auszugleichen, werden in Kameras Linsen verwendet, die das
+Licht bündeln, um mehr Licht auf den Senor fallen zu lassen. Durch Linsen werden
 allerdings neue Abbildungscharakteristiken eingeführt, die im Modell
 berücksichtigt werden müssen. Da es nur zwei Charakteristiken gibt, die einen
 nennenswerten Einfluss auf das Bild haben, kann das Modell einfach erweitert
@@ -133,7 +133,7 @@ Einbaulage des Sensors gegenüber der optischen Achse.
 
 Eine parabolische Linse oder ein komplexes Linsensystem hat nur einen geringen
 Einfluss auf die Abbildung. Da aber häufig nur günstige sphärische Linsen
-eingesetzt werden muss die radiale Verzeichnung korrigiert werden. Der Effekt
+eingesetzt werden, muss die radiale Verzeichnung korrigiert werden. Der Effekt
 nimmt ausgehend vom optischen Zentrum zu und ist rotationssymetrisch dazu. Die
 radiale Verzeichnung kann durch die ersten sieben Glieder einer Taylorreihe
 $f(x)=a_0+a_1*x+a_2*x^2+\cdots+a_n*x^n$ beschrieben werden. Aus der Symmetrie
@@ -155,7 +155,7 @@ eines Schachbretts - erkannt und zusammen mit einem Modell des Musters an den
 Kalibrieralgorithmus übergeben. Dieser geht im ersten Schritt von einer
 Lochkamera ohne Verzerrungen durch Linsen aus. Anschließend wird der
 Parametervektor $\left[k_1,k_2,p_1,p_2,k_3\right]$ berechnet.\cite{zhang2000flexible}
-Man erhält also alle wichtigen Parameter um einen Punkt im Raum auf einen Punkt auf dem Sensor
+Man erhält also alle wichtigen Parameter, um einen Punkt im Raum auf einen Punkt auf dem Sensor
 zu projizieren oder einem Punkt auf dem Sensor eine Linie im Raum zuzuordnen.
 
 Außerdem kann dadurch die Pose eines bekannten Objekts im Raum berechnet
@@ -205,15 +205,15 @@ für die Rotationsmatrix
 \begin{equation} R=R_1*(R_2)^T \end{equation} und für den Translationsvektor
 \begin{equation} T=T_1-R*T_2 \end{equation}
 
-Obwohl es möglich ist die gesuchte Transformation aus einem Bildpaar zu
-berechnen, werden mehrere Paare aufgenommen um Bildrauschen und andere
+Obwohl es möglich ist, die gesuchte Transformation aus einem Bildpaar zu
+berechnen, werden mehrere Paare aufgenommen, um Bildrauschen und andere
 Störeinflüsse zu kompensieren. Dazu wird der Median der gefundenen
 Transformationen als Startwert für ein Optimierungsverfahren verwendet, das
 zuverlässig die beste Lösung findet.
 
 Mit den gefundenen Parametern können anschließend die Rectifizierungsmatrizen
 für beide Kameras berechnet werden, die auf die Bilder angewendet ein Bildpaar
-ergeben, bei den das alle Bedingungen für ein ideales Stereokamerasystem zutreffend
+ergeben, bei dem alle Bedingungen für ein ideales Stereokamerasystem zutreffend
 sind \cite{Bradski2008}.
 % subsubsection Stereokamerakalibrierung (end)
 
@@ -265,7 +265,7 @@ die \ac{DH-Parameter} der Aktoren sowie alle anderen Transformationen zumindest
 näherungsweise bekannt sein. Durch das Modell können dann die markanten Punkte
 des Kalibrierobjektes und die Position der Sensoren im Raum berechnet werden.
 Die modellierten Punkte lassen sich anschließend über die Sensorparameter in
-simulierte Messwerte umrechnen. Der Fehler der durch Modifikationen an einzelnen
+simulierte Messwerte umrechnen. Der Fehler, der durch Modifikationen an einzelnen
 Transformationen am Modell minimiert werden soll, ist die Differenz der
 berechneten und der gemessenen Messwerte \cite{levi2012autonomous}.
 Die Fehlerberechnung wird außerdem genutzt, um die Jacobimatrix für die Optimierung zu berechnen. Dazu werden alle
