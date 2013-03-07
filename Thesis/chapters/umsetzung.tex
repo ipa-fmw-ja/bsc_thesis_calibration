@@ -2,7 +2,7 @@
 
 Der neu festgelegte Ablauf der Kalibrierung lässt sich in die zwei Schritte 
 Einrichtung und Durchführung unterteilen. Die Einrichtung erfordert Kenntnisse
-über die Funktionweise des Kalibrierablaufs, muss aber nur einmalig pro Roboter
+über die Funktionsweise des Kalibrierablaufs, muss aber nur einmalig pro Roboter
 ausgeführt werden.
 
 \section{Einrichtung der Kalibrierung}
@@ -16,7 +16,7 @@ umfasst nur Änderungen der Dateien im Package \texttt{cob\_calibration\_config}
 \label{sub:Angeben der zu kalibrierenden Kameras}
 
 Ein weiterer neuer Schritt bei der Einrichtung der Kalibrierung auf einem neuen
-Roboter ist das festlegen der zu kalibrierenden Kameras. Hierzu werden in der 
+Roboter ist das Festlegen der zu kalibrierenden Kameras. Hierzu werden in der 
 Datei \texttt{cameras.yaml} eine Referenzkamera und alle weiteren Kameras angegeben.
 Dazu wird für jede Kamera der Name des Sensorkoordinatensystems, das
 \ac{ROS}-Topic auf dem die Bildinformationen verteilt werden und der Pfad zu den
@@ -32,7 +32,7 @@ Als
 erster Schritt muss die neue Konfigurationsdatei \texttt{calibration\_seed.yaml} 
 angelegt werden, in der eine Position des Kalibrierobjekts mittig im Sichtfeld
 der Kameras in Gelenkwinkeln angegeben wird. Diese Position ist der Ausgangspunkt
-der Kalibrierung und sollte genutzt werden um den Endeffektor des Roboters durch 
+der Kalibrierung und sollte genutzt werden um den Endefektor des Roboters durch 
 das Kalibrierobjekt zu ersetzen. Die angegebene Position wird als Anfangspunkt 
 für die Suche der Samplepositionen verwendet.
 
@@ -48,7 +48,7 @@ optischen Achse berechnet, ob die Position sichtbar ist. Im Anschluss daran wird
 gegebenen Falls die inverse Kinematik des Torsos und des Arms berechnet. Die 
 berechneten Gelenkwinkel werden in der Datei \texttt{calibration\_positions.yaml}
 gespeichert. Die berechneten Positionen können anschließend in Simulation
-überprüft und manuell um weitere Positionen erweitert werden. Im gegensatz zur 
+überprüft und manuell um weitere Positionen erweitert werden. Im Gegensatz zur 
 Bisherigen Kalibrierung lassen sich durch die neue Berechnung schneller
 Gelenkwinkel für Roboter mit unterschiedlichen Arbeitsräumen festlegen. 
 
@@ -177,8 +177,23 @@ für die kinematische Kalibrierung aufgenommen. Hierzu wird der \ac{ROS}-Service
 \texttt{/collect\_data/capture} aufgerufen. Der Empfänger dieses Aufrufs ist 
 der Node \texttt{collect\_data}. Dieser berechnet alle Transformationen die in 
 der \texttt{sensors.yaml} als Aktorketten eingetragen sind anhand des aktuellen
-Roboterzustandes. Zusätzlich werden die Charakteristischen Punkte des Kalibrierobjektes
-aus dem Kamerabild der Referenzkamera extrahiert. Diese zwei Informationen 
+Roboterzustandes. Dazu wird eine Nachricht vom Typ \texttt{ChainMeasurement}
+erzeugt. Darin wird wie in \ref{fig:messages} dargestellt die Bezeichnung der 
+Kette sowie der Translationsvektor und die Roll-, Pitch und Yaw-Winkel 
+gespeichert.
+\begin{figure}[htpb]
+  \centering
+  \input{images/Messages.tex}
+  \caption{Die Messages \texttt{CameraMeasurement} und \texttt{ChainMeasurement}}
+  \label{fig:messages}
+\end{figure}
+Zusätzlich werden die Pixelkoordinaten der Ecken des Schachbretts
+aus dem Kamerabild der Referenzkamera extrahiert. Die Koordinaten werden dann 
+zusammen mit der ID der Kamera und einm Zeitstempel zu einer Nachricht vom Typ 
+\texttt{CameraMeasurement}. Es besteht die Möglichkeit weitere Informationen
+in der Nachricht zu speichern um Fehler bei der Datenaufnahme zu erkennen.
+Dazu gehören ein Bild und die Koordinaten des 
+Kalibrierobjekts in dessen Koordinatensystem.Diese zwei Informationen 
 bilden einen Datensatz und werden zu einer Nachricht auf dem \ac{ROS}-Topic
 \texttt{/robot\_measurement} zusammengefasst. Alle Nachrichten die auf diesem 
 Topic veröffentlich werden werden in einer Datei gespeichert und bilden die
@@ -199,7 +214,7 @@ Kalibrierungsposition versucht einen weiteren Datensatz aufzunehmen.
 \subsection{Berechnung der Kameraparameter}
 \label{sub:Berechnung der Kameraparameter}
 
-Aus den aufgenommen werden im Anschluss die Kameraparameter aller Kameras sowie
+Aus den aufgenommen Daten werden im Anschluss die Kameraparameter aller Kameras sowie
 deren Transformationen zur Referenzkamera berechnet. Die wichtigste Neuerung der 
 Kamerakalibrierung ist, dass nicht nur die Transformation des Stereokamerapaars
 sondern auch die Transformation zu den anderen Kameras berechnet wird. Dafür 
@@ -259,6 +274,13 @@ Die Klasse zur Berechnung des Fehlers am Kalibrierobjekt wurde nicht geändert.
 Zur Berechnung des Fehlers werden die Punkte des virtuellen Kalibrierobjektes
 mit den modellierten Punkten des an einer Kette von Transformationen angebrachten
 Kalibrierobjektes verglichen.
+
+\begin{figure}[htpb]
+  \centering
+\input{images/run_calibration}
+    \label{fig:run_calibration}
+    \caption{Kinematische Kalibrierung}
+\end{figure}
 
 Zur Berechnung der Transformationen zu den Sensoren gibt es eine Klasse die 
 unterteilt ist in die Berechnung der festen Transformationen und der variablen
