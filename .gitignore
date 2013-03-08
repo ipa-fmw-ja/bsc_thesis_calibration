@@ -16,3 +16,6 @@
 *.toc
 *.vrb
 *~
+/Thesis/Bachelorthesis.pdf
+/Poster/images/target.svg
+/.dropbox
