@@ -1,19 +1,19 @@
 \chapter{Ausblick und Fazit}
 
-Das Ziel dieser Arbeit ist die automatische Kalibrierung des \cob\ anzupassen 
+Das Ziel dieser Arbeit ist, die automatische Kalibrierung des \cob\ anzupassen 
 und zu generalisieren. Hierdurch soll ein einheitliches Kalibrierverfahren 
-geschaffen werden mit dem alle \cob\ und andere am \ac{IPA} eingesetzte 
+geschaffen werden, mit dem alle \cob\ und andere am \ac{IPA} eingesetzte 
 Serviceroboter kalibriert werden können. Die bereits vorhandene Lösung führt am
 \cob3-6 zu guten Ergebnissen, mit denen eine sichere Objekterkennung und
 Manipulation möglich ist. Diese Lösung kann nicht auf andere Roboter angewandt
 werden. Durch die genaue Untersuchung des \cob\ sowie des bisherigen
 Kalibrierablauf werden die Softwarekomponenten erkannt, die eine Kalbrierung 
-verhindern. 
+verhindern.\todo{versteht papa nicht} 
 
 Die beiden Kalibrierungsstufen zur Kamera- und kinematischen Kalibrierung  des
 alten Verfahrens werden durch die Änderungen zusammengefasst. Dafür werden zur 
 kinematischen Kalibrierung die Merkmale eines Kalibrierobjekts auf den
-verzerrten Bildern der Kameras erkannt. Bei der berechnung wird diese
+verzerrten Bildern der Kameras erkannt. Bei der Berechnung wird diese
 Verzerrung berücksichtigt. Dadurch ist die Aufnahme eines Datensatzes zur
 Kalibrierung mit unkalibrierten Kameras möglich und die Datenaufnahme zur
 Kamerakalibrierung entfällt. 
@@ -22,27 +22,29 @@ Zur Berechnung der Kalibrierung werden im bisherigen Verfahren \ac{DH-Parameter}
 benötigt, die nicht für alle behandelten Roboter verfügbar sind. Dadurch 
 kann die Kalibrierung nur auf einem Roboter ausgeführt werden. Zur Generalisierung
 werden diese durch das vorhandene Modell des Roboters ersetzt. Durch diese 
-Anpassung können auch Roboter mit Aktoren für die keine \ac{DH-Parameter} 
-verfügbar sind kalibriert werden.
+Anpassung können auch Roboter mit Aktoren, für die keine \ac{DH-Parameter} 
+verfügbar sind, kalibriert werden.
 
 Die Implementierung erfolgt als \ac{ROS}-Stack. Um neue Roboter einfacher in 
-die Kalibrierung aufzunehmen werden alle Konfigurationen im neuen
-\ac{ROS}-Package \texttt{cob\_calibration\_config} zusammengefasst. Die
-Bestimmung von neuen Samplepositionen erfolgt anstatt festgelegter Positionen 
-durch eine Strategie die gültige Samples für die Roboter berechnet. Dadurch 
+die Kalibrierung aufzunehmen, werden alle Konfigurationen im neuen
+\ac{ROS}-Package \texttt{cob\_calibration\_config} zusammengefasst.
+Anstatt festgelegter Positionen werden Samplepositionen für die Roboter berechnet.  
+Dadurch können Roboter mit unterschiedlichen Aktoren in die Kalibrierung
 können Roboter mit unterschiedlichen Aktoren in die Kalibrierung einbezogen 
-werden. 
+werden.
 
-Das Hauptziel der Bachelorthesis das Kalibrierungsverfahren für die Kameras und
-die beiden ``relevanten Komponenten'' Arm und Torso anzupassen um andere Roboter
-zu kalibrieren wird durch diese Änderungen erreicht. Durch den Vergleich der
+
+Durch diese Änderungen wird das Hauptziel der Bachelorthesis, das Kalibrierungsverfahren für die Kameras und
+die beiden ``relevanten Komponenten''\cite{shaug} Arm und Torso anzupassen, um andere Roboter
+zu kalibrieren, erreicht.
+Durch den Vergleich der
 Messdaten der Kamera und des Modells kann die Genauigkeit der Kalibrierung 
 überprüft werden. Außerdem ist nach der Kalibrierung das erfolgreiche Greifen 
 von erkannten Gegenständen möglich. 
 
 In weiteren Arbeiten kann die Kalibrierung noch um die Montageposition der
-Laserscanner oder des Tabletts erweitert werden. Am \cob\ werden nur 2D-Laserscanner
-eingesetzt die keine Helligkeitswerte zurückgeben. Zur Kalibrierung kann wie 
+Laserscanner und des Tabletts erweitert werden. Am \cob\ werden nur 2D-Laserscanner
+eingesetzt, die keine Helligkeitswerte zurückgeben. Zur Kalibrierung kann wie 
 bisher ein Objekt erkannt und ein Modell an die Messwerte angepasst werden.
 Die Montageposition des Tabletts kann zum Beispiel durch taktile Messungen oder
 Kalibriermuster am Tablett berechnet werden.

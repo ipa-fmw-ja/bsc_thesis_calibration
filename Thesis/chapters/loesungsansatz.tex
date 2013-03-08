@@ -16,7 +16,7 @@ und Anhand von Markierungen an den Gelenken überprüft werden. Danach muss aus
 den aktuellen Werten der Gelenke und den eingestellten Werten manuell ein neuer
 Referenzwert berechnet und eingegeben werden. Fehler in diesem Schritt wirken 
 sich auf die gesamte nachfolgende Kalibrierung aus und lassen sich nicht beheben.
-Das Fehlerpotential das durch die manuelle Verarbeitung entsteht kann durch 
+Das Fehlerpotential, das durch die manuelle Verarbeitung entsteht kann durch 
 eine automatisierte Lösung gesenkt werden. Dadurch wird die Kalibrierung 
 vereinfacht und beschleunigt.
 \section{Datenaufnahme} % (fold)
@@ -25,7 +25,7 @@ vereinfacht und beschleunigt.
 
 
 Zur Datenaufnahme
-wurden Armpositionen mit den dazugehörigen Torsostellungen in einer Datei 
+werden Armpositionen mit den dazugehörigen Torsostellungen in einer Datei 
 abgelegt. Diese Datei wird anhand vorher festgeleter kartesischer Koordinaten
 berechnet. Durch die unterschiedlichen Abmessungen der eingesetzten Arme 
 ist es dem \ac{LWA} nicht möglich, alle dieser für den \ac{LBR3} festgelegten 
@@ -43,10 +43,10 @@ aufgenommen werden.
 
 Eine Lösung für die unterschiedlichen Hardwarekonfigurationen ist die Erstellung
 neuer Positionsdaten entweder durch manuelles Anfahren der Positionen und 
-Abspeichern, oder durch das Festlegen eines Bereiches in dem das Kalibrierobjekt
+Abspeichern oder durch das Festlegen eines Bereiches in dem das Kalibrierobjekt
 bewegt und von den Kameras erkannt werden kann. In diesem Raum können dann
 beliebig viele gültige Positionen berechnet werden. Eine weitere Möglichkeit
-ist das Festlegen eines spiralförmigen Pfades der vom Roboterarm abgefahren 
+ist, das Festlegen eines spiralförmigen Pfades der vom Roboterarm abgefahren 
 und regelmäßig auf die Sichtbarkeit des Kalibrierobjekts überprüft wird. Hierdurch
 wird ein sichtbares Feld abgesteckt und gleichzeitig Samples für die 
 Optimierung aufgenommen. Bei der dritten Möglichkeit werden im voraus Positionen
@@ -64,7 +64,7 @@ Berechnung der inversen Kinematik des Armes und des Torsos.
 \label{ssub:Abfahren und Überprüfen eines Pfades}
 
 Bei der Lösung des 
-definierten Bereichs in dem Samples aufgenommen werden kann die Qualität und die
+definierten Bereichs, in dem Samples aufgenommen werden, kann die Qualität und die
 Position des Arms ohne die eigentliche Hardware in Simulation berechnet werden, 
 während bei dem Abfahren eines Pfades die Gelenkwinkel unmittelbar vor der 
 Bewegung berechnet werden. Der Vorteil dieser Methode ist, dass zur Berechnung
@@ -86,7 +86,7 @@ und damit der Zeitaufwand der Datenaufnahme reduziert wird. Außerdem können al
 Trajektorien des Arms und des Torsos in der Simulation auf Kollisionen überprüft
 werden. Eine rechnerische Überprüfung auf Kollisionen ist wegen der noch nicht 
 erfolgten Kalibrierung noch nicht zuverlässig möglich. Ein Nachteil ist, dass
-Modelle zur Strategie der Berechnung erzeugt werden müssen die genug Toleranz für Fehler zulassen um die 
+Modelle zur Strategie der Berechnung erzeugt werden müssen, die genug Toleranz für Fehler zulassen, um die 
 noch nicht erfolgte Kalibrierung auszugleichen.
 
 Die Entscheidung fiel wegen der erheblich sichereren Durchführung für die Berechnung
@@ -102,7 +102,7 @@ Kalibrierung bereits verarbeitete, also entzerrte Bilder des
 Kalibrierungsobjekts und die Projektionsmatrix der Kameras benötigt, um den Fehler
 zu bestimmen. Dazu wurden nur die Daten des zweiten Aufnahmeschritts für die 
 kinematische Kalibrierung des Roboters verwendet. Für die Aufnahme wurden unter
-anderem die Nachrichten die die Kameraparameter und die Kamerabilder enthalten
+anderem die Nachrichten, die die Kameraparameter und die Kamerabilder enthalten,
 aufgezeichnet und in einer Datei gespeichert. Die Entzerrung der Bilddaten kann
 aber auch nach den angegebenen Formeln \footnote{Siehe Kapitel \ref{sub:Kamerakalibrierung}} erst bei
 der Optimierung erfolgen. Genauso können die Kameraparameter auch nachträglich
@@ -113,7 +113,7 @@ erfasst werden.
 Durch den fehlenden Aufnahmeschritt kann der Zeitaufwand der Datenaufnahme 
 und damit der gesamten Kalibrierung reduziert werden.
 Weil Armbewegungen ohne Kollisionsberechnung zu Schäden an der Hardware und der
-Umwelt führen können kann außerdem die Sicherheit der Kalibrierung erhöht werden.
+Umwelt führen können, kann außerdem die Sicherheit der Kalibrierung erhöht werden.
 
 % section Datenaufnahme (end)
 
@@ -142,6 +142,7 @@ eingesetzten Komponenten ausreichend genaue \ac{DH-Parameter}. Die bisher manuel
 ausgeführte Berechnung der \ac{DH-Parameter} sollte deswegen automatisiert oder
 ersetzt werden. Dazu bieten sich drei Möglichkeiten, die evaluiert wurden. 
 
+\todo{Die drei möglichkeiten erklären}
 
 
 
@@ -150,14 +151,14 @@ ersetzt werden. Dazu bieten sich drei Möglichkeiten, die evaluiert wurden.
 \label{ssub:Berechnung der dh-par}
 
 Um die Kalibrierung auch für andere Roboter zu nutzen,
-besteht die Möglichkeit die Parameter automatisiert berechnen zu lassen. Der Vorteil
-dieser Methode liegt in der einfachen implementierung. Durch die Berechnung der Parameter 
-wird eine neue Konfigurationsdatei erzeugt mit der der Roboter kalibriert werden kann.
+besteht die Möglichkeit, die Parameter automatisiert berechnen zu lassen. Der Vorteil
+dieser Methode liegt in der einfachen Implementierung. Durch die Berechnung der Parameter 
+wird eine neue Konfigurationsdatei erzeugt, mit der der Roboter kalibriert werden kann.
 
 Die Nachteile dieser Methode liegen in der Berechnung der Vorwärtskinematik während der
 Optimierung sowie der weiteren Verwendung von \ac{DH-Parameter}n. Dadurch 
-werden alle Nachteile die sich durch die vereinfachte Beschreibung einer 
-Transformation durch \ac{DH-Parameter} ergeben auf den Roboter übertragen.
+werden alle Nachteile, die sich durch die vereinfachte Beschreibung einer 
+Transformation durch \ac{DH-Parameter} ergeben, auf den Roboter übertragen.
 Diese Vereinfachungen lassen nur reine Rotations- und Translationsgelenke zu.
 Da ein möglichst universell einsetzbares Verfahren implementiert werden soll, 
 kann nicht davon ausgegangen werden, dass alle zu kalibrierenden Roboter diese 
@@ -176,7 +177,7 @@ Gesamtrechenzeit aus.
 
 Eine Alternative hierzu ist die Nutzung des ROS-Services zur Berechnung der Vorwärtskinematik.
 Hierzu werden weiterhin die Gelenkwinkel erfasst und abgelegt. Während der Optimierung werden
-die Gelenkwinkel an den ROS-Node der für die Berechnungen der Vorwärtskinematik zuständig ist 
+die Gelenkwinkel an den ROS-Node, der für die Berechnungen der Vorwärtskinematik zuständig ist, 
 übergeben und die Transformation berechnet. Dadurch müssen in den Konfigurationsdateien keine
 \ac{DH-Parameter} abgelegt sein und es lassen sich alle modellierten Arten von Aktoren berechnen.
 
@@ -184,7 +185,7 @@ Problematisch hierbei ist, dass es für jeden Aktor einen Service geben muss, de
 Vorwärtskinematik berechnen kann. Für den \cob gibt es diesen Service nur für den Arm.
 Für Tests wurde dieser Node angepasst um auch Lösungen für den Torso zu berechnen.
 Dabei kann festgestellt werden, dass der Zeitbedarf der Kalibrierung ansteigt.
-Die berechnung der Transformationen erfolgt hierbei wie mit \ac{DH-Parameter}n
+Die Berechnung der Transformationen erfolgt hierbei wie mit \ac{DH-Parameter}n
 während der Optimierung. Durch die Nutzung der \ac{ROS}-Services zur Berechnung 
 der Transformationen und den damit verbundenen zusätzlichen Funktionsaufrufen 
 erhöht sich der Overhead und damit auch die Gesamtrechenzeit. 
@@ -197,28 +198,28 @@ erhöht sich der Overhead und damit auch die Gesamtrechenzeit.
 % subsubsection Abspeichern der Transformationen während der Datenaufnahme (end)
 
  Die dritte Möglichkeit erfordert Änderungen sowohl an der Datenaufnahme als auch an der Optimierung.
- Anstatt Gelenkwinkel aufzunehmen werden hierbei die Transformationen eines Aktors während der Datenaufnahme
+ Anstatt Gelenkwinkel aufzunehmen, werden hierbei die Transformationen eines Aktors während der Datenaufnahme
  berechnet. An dieser Stelle muss die Berechnung nur einmal pro Sample, also insgesamt etwa 30 bis 50 mal 
  erfolgen. Die in \ref{ssub:Berechnung der dh-par} angegebenen 250.000 Berechnungen werden für die Berechnung 
  der Kovarianz- und der Jacobi-Matrix benötigt. Bei dieser Möglichkeit werden hierzu nicht die Gelenkwinkel,
  sondern die Rotations- und Translationsvektorelemente variiert.
  Der Vorteil dieser Methode ist neben der verkürzten Rechenzeit, dass für alle mit \ac{ROS} verwendeten 
- Roboter ein Modell vorhanden sein muss das hier verwendet werden kann. Die Modellierung des Manipulators
+ Roboter ein Modell vorhanden sein muss, das hier verwendet werden kann. Die Modellierung des Manipulators
  muss also nicht zusätzlich in \ac{DH-Parameter}n vorhanden sein. Außerdem 
- bietet \ac{ROS} ohne zusätzliche Nodes die Möglichkeit die aktuellen Transformationen
+ bietet \ac{ROS} ohne zusätzliche Nodes die Möglichkeit, die aktuellen Transformationen
  zu berechnen. Die Transformation kann also für jeden Roboter ohne zusätzliche
  Änderungen berechnet werden.
  
- Dafür muss schon bei der Datenaufnahme bekannt sein welche Transformationen für die Optimierung benötigt 
+ Dafür muss schon bei der Datenaufnahme bekannt sein, welche Transformationen für die Optimierung benötigt 
  werden. Das bedeutet, dass die in Abbildung \ref{fig:pfade} dargestellten Pfade bereits genau
  definiert sein müssen und nur wenige Änderungen nachträglich gemacht werden können. Bei der 
  Aufnahme von Gelenkwinkeln ist diese Festlegung erst bei der Kalibrierung von Bedeutung. 
- Wenn nachträglich Änderungen an den angegebenen Pfaden gemacht werden müssen 
+ Wenn nachträglich Änderungen an den angegebenen Pfaden gemacht werden, müssen 
  erneut Daten aufgenommen werden. Bei den anderen Methoden ist eine Änderung nach
  der Datenaufnahme möglich. Dafür wird durch die gezielte Aufnahme von Daten der
  Speicherbedarf verringert.
 
- Da sich bei dieser Methode die Dateistruktur ändert müssen viele Teile zur 
+ Da sich bei dieser Methode die Dateistruktur ändert, müssen viele Teile zur 
  Berechnung des Modells des Optimierers angepasst oder neu entwickelt werden. 
 % subsection Denavit-Hartenberg Parameter (end)
 
@@ -233,8 +234,8 @@ Durch das Format der Parameterdateien des bisherigen Kalibrieralgorithmus konnte
 nicht alle Eigenschaften des \cob\ abgebildet werden. Dazu gehören Aktoren, die
 an anderen Aktoren montiert sind. Beim \cob\ führt das zu Einschränkungen die 
 die Kopfachse betreffen. Beim \cob\ ist der Kopf mit einer Achse an einer 
-unbekannten Positon auf dem Torso befestigt. Für die bisherige Kalibrierung wurde
-um dies zu umgehen die Kopfachse als statische Transformation angesehen. Dadurch
+unbekannten Positon auf dem Torso befestigt. Für die bisherige Kalibrierung wurde,
+um dies zu umgehen, die Kopfachse als statische Transformation angesehen. Dadurch
 wurde eine Kalibrierung in einem bestimmten Bereich ermöglicht. Zur Steigerung
 der Genauigkeit sollte die Kalibrierung den gesamten Arbeitsraum des Roboters
 abdecken. 
