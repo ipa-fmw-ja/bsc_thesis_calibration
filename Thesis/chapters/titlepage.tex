@@ -7,27 +7,119 @@
 % See the file diplomarbeit_mit_latex.tex for copying conditions.
 %
 
-\begin{titlepage}
-	\vspace*{6cm}
-	\begin{center}
-		\Huge
-		Automatische Kalibrierung eines mobilen Serviceroboters\\
-		\vspace{1cm}
-		\large
-		\today\\
-		\vspace{2cm}
-		Jannik Abbenseth \enquote{jannik.abbenseth@gmail.com}\\
+%\begin{titlepage}
+	%\vspace*{6cm}
+	%\begin{center}
+		%\Huge
+		%Automatische Kalibrierung eines mobilen Serviceroboters\\
+		%\vspace{1cm}
+		%\large
+		%\today\\
+		%\vspace{2cm}
+		%Jannik Abbenseth
 		
-	\end{center}
-	\normalsize
+	%\end{center}
+	%\normalsize
 	
-\end{titlepage}
+%\end{titlepage}
 
+\begin{titlepage}
+  \newgeometry{left=30mm, right=30mm}
+  \title{Bachelor-Thesis}
+  
+\subtitle{Automatische Kalibrierung eines mobilen Serviceroboters}
+\author{Jannik Sven Abbenseth}
+%\publishers{Hochschule Furtwangen University, Fakultät für Maschinenbau und Mechatronik
+  %\\Fraunhofer Gesellschaft, Institut für Produktionstechnik und Automatisierung}
+\publishers{1. Betreuer: Prof. Dr. rer. nat Edgar Seemann\\
+2. Betreuer: Dipl.-Ing. Florian Weißhardt}
+\titlehead{\includegraphics[height=1.5cm]{images/hfu_logo.pdf}
+\hfill
+\includegraphics[height=1.5cm]{images/ipa_xl}}
+\date{20. Februar 2013}
+  \maketitle
+  
+
+\end{titlepage}
+\restoregeometry
+
+
+\section*{Kurzfassung}
+\subsubsection*{Thema der Arbeit: Automatische Kalbrierung eines mobilen Serviceroboters}
+
+
+\begin{tabular}{ll}
+
+  Bearbeiter:&Jannik Sven Abbenseth\\\\
+  1. Betreuer:&Prof. Dr. rer. nat Edgar Seemann\\
+  2. Betreuer:&Dipl.-Ing. Florian Weißhardt \\\\
+  Semester:& MM7
+\end{tabular}
+\subsubsection{Kurzfassung}
+\label{ssub:Kurzfassung}
+Das Ziel dieser Arbeit ist es, die automatische Kalibrierung eines mobilen 
+Serviceroboters anzupassen und zu generalisieren.
+Hierdurch soll ein einheitliches Kalibrierverfahren 
+geschaffen werden, mit dem alle am Institut für Produktionstechnik und Automatisierung
+eingesetzten Serviceroboter kalibriert werden können.
+
+Dazu wird das bisher eingesetzte Verfahren analysiert und dessen 
+Verbesserungspotential festgestellt.
+
+Die zur Kalibrierung nötigen Datenaufnahmeschritte konnten nach Abschluss der 
+Arbeit auf einen reduziert werden. Außerdem wird die Berechnung der 
+Kalibrierung durch den Ersatz von bisher verwendeten Denavit-Hartenberg Parametern
+an weiteren Robotern einsetzbar gemacht.
+
+Zusätzlich wurde ein Verfahren entwickelt mit dem ein Kalibrierobjekt durch 2D
+Laserscanner erkannt werden kann um diese in späteren Arbeiten zu kalibrieren.
+
+\vfill
+\textbf{Schlüsselwörter: }Kalbrierung, Robotik 
+
+
+\section*{Abstract\phantom{g}}
+\subsubsection*{Title of Bachelor-Thesis: Automatic calibration of a mobile 
+  service robot\phantom{g}}
+
+
+\begin{tabular}{ll}
+
+  Author:&Jannik Sven Abbenseth\\\\
+  1. Examiner:&Prof. Dr. rer. nat Edgar Seemann\\
+  2. Examiner:&Dipl.-Ing. Florian Weißhardt \\\\
+  Semester:& MM7
+\end{tabular}
+\subsubsection{Kurzfassung}
+\label{ssub:Kurzfassung}
+
+This Bachelor-Thesis aims for adapting and generalizing the automatic 
+calibration process of a mobile service robot.
+Hereby a consistent calibration process for all used service robots at the
+Fraunhofer Institute for Manufacturing Engineering and Automation should be developed.
+
+Therefore the former used calibration prozess was analyzed and its potential for
+improvement determined.
+
+During the implementation the two data collection steps for the camera and the
+hand eye calibration were combined into a single step of data collection.
+Another improvement was made by reorganizing the calculation step to compute 
+the hand eye transformations with recorded transformations instead of Denavit-Hartenberg
+parameters, which led to a wider range of application on service robots.
+
+Additionaly a detector for detecting a calibration pattern in 2D laser range finder
+was implemented. It could be used in future works for calibrating the mount position
+of these laser range finders.
+\vfill
+\textbf{Keywords: }Calibration, Robotics
+
+
+\input{chapters/erklaerung}
 \tableofcontents
 
 \listoffigures
 
-\listoftables
+%\listoftables
 
 
 %
