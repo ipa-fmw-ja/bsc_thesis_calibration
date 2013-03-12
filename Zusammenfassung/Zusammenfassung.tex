@@ -1,0 +1,93 @@
+%% Erläuterungen zu den Befehlen erfolgen unter
+%% diesem Beispiel.
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+ 
+\title{Automatische Kalibrierung eines mobilen Serviceroboters}
+\author{Jannik Abbenseth}
+\date{WS 12/13}
+\publishers{Betreuer: Prof. Dr. rer. nat Edgar Seemann}
+
+\newcommand{\cob}{Care-O-bot}
+\begin{document}
+ 
+\maketitle
+\section{Einleitung}
+
+Der während der Bachelorthesis behandelte \cob\ ist ein Serviceroboter, der
+in ihrer Mobilität eingeschränkten Menschen im Haushalt unterstützen soll. 
+Dazu muss eine sichere Interaktion mit Menschen auch in wechselnden Umgebungen
+möglich sein.
+
+Der \cob besteht aus einer mobilen Plattform an der verschiedene Komponenten 
+installiert sind. Dazu gehört ein Roboterarm sowie ein beweglicher Kopf mit 
+Kameras. Auf dem \cob\ wird das Robot Operating System ROS eingesetzt. 
+
+Um eine sichere Interaktion zu ermöglichen, muss ein exaktes Modell des 
+Roboters vorhanden sein, mit dem Bewegungen berechnet werden können.
+Dazu müssen sowohl die Kameras als auch die Montagepositionen aller an einer
+Bewegung beteiligten Aktoren bekannt sein.
+
+Zu Beginn der Arbeit liegt ein Kalibrierverfahren vor, mit dem ein \cob\ 
+kalibriert werden konnte. Dieses Verfahren soll während der Bachelorthesis
+angepasst werden um auch auf anderen Robotern eingesetzt werden zu können.
+
+
+\section{Verbesserungspotential}
+\label{sec:Verbesserungspotential}
+
+Die Kalibrierung ist im Ausgangszustand durch drei Faktoren an den \cob3-3 
+gebunden. Ein Faktor ist die feste Parametrisierung im Quellcode der
+automatischen Kalibrierung. Zusätzlich werden Positionen an denen Daten für 
+die Kalibrierung aufgenommen werden als Gelenkwinkel abgelegt. Durch 
+unterschiedliche Aktoren an den Robotern führen diese Gelenkwinkel nicht immer
+zu Positionen an denen ein gültiges Sample aufgenommen werden kann. Ein weiteres
+Problem ist die Verwendung von Denavit-Hartenberg Parametern zur Berechnung der
+Modelle der Aktoren. Diese Parameter waren nicht für alle verwendeten Aktoren
+verfügbar.
+
+\section{Umsetzung}
+Zur Kalibrierung werden Änderungen am ROS-Stack \texttt{cob\_calibration}
+vorgenommen. Um das Verfahren auch an Robotern einzusetzen, deren Aktoren nicht 
+durch Denavit-Hartenberg Parameter beschrieben werden, muss die Berechnung der
+Vorwärtskinematik geändert werden. Dazu wurden die vorhandenen Funktionen 
+umgeschrieben um die schon vorhandene Roboterbeschreibung zu nutzen. Um dies
+zu ermöglichen müssen Änderungen an der Datenaufnahme und den Schnittstellen
+zwischen Datenaufnahme und Berechnung durchgeführt werden.
+
+Die angegebenen Gelenkwinkel der Aufnahmepositionen werden durch eine Strategie
+ersetzt, die neue Aufnahmepositionen für neue Roboter berechnet. Dafür werden
+Positionen entlang eines Pfades mathematisch auf ihre Eignung als
+Kalibrierungsposition Überprüft. Für die so berechneten Positionen werden 
+anschließend die Gelenkwinkel berechnet und für die Datenaufnahme verwendet.
+
+Als letzter Verbesserungsschritt werden alle Parameter die spezifisch für einen
+Roboter sind ausgelagert und können in Konfigurationsdateien angepasst werden.
+
+Durch die vorgenommenen Änderungen können einfach Konfigurationsdateien für neue
+Roboter angelegt werden um diese zu Kalibrieren.
+
+
+Außerdem wird ein verfahren vorgestellt, mit dem ein Kalibrierobjekt anhand
+von 2D Laserscannerdaten erkannt werden kann. Dies dient zur Kalibrierung der
+Montagepositionen der Laserscanner. In der bisherigen Kalibrierung werden nur
+die Montagepositionen des Torsos, des Arms und der Kameras sowie die intrinsischen
+Parameter der Kameras kalibriert.
+
+
+\section{Fazit}
+
+Das Hauptziel der Bachelorthesis eine automatische Kalibrierung für die
+wichtige Kette von der Objekterkennung anhand der Kameras über den Torso und
+den Arm zum Endeffektor zu entwickeln, die auf allen eingesetzten Robotern
+funktioniert konnte erreicht werden.
+Außerdem wurde durch die Entwicklung einer Objekterkennung anhand von 2D 
+Laserscandaten die Aufnahme der Laserscanner in die Kalibrierung vorbereitet
+und kann in folgenden Arbeiten umgesetzt werden.
+
+
+\end{document}
