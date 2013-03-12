@@ -1,18 +1,21 @@
 \chapter{Problemstellung und Entwicklung einer Lösung}
 
 Die Aufgabe, das vorhandene Kalibrierungsverfahren für alle \cob der dritten 
-Generation anzupassen, konnte durch Tests an der Hardware und in Simulation 
+Generation anzupassen, konnte durch Tests an der Hardware und in der Simulation 
 auf zwei Bereiche, an denen Änderungen nötig waren, zurückgeführt werden. 
 Mit den für die neuen Roboter erstellten Konfigurationsdateien konnte wegen
 den fest einprogrammierten Werten keine gültige Kalibrierung berechnet werden.
 Die vorhandenen Probleme waren in den Bereichen der Datenaufnahme
 sowie der kinematischen Kalibrierung des Roboters angesiedelt. 
+Außerdem sollten Lösungen gefunden werden, die Montagepositionen der 
+Laserscanner und das Tablett zu Kalibrieren.
+
 
 \section{Vorbereitung der Kalibrierung}
 \label{sec:Vorbereitung der Kalibrierung}
 Vor der Kalibrierung müssen die Gelenke des Torsos und des Arms in eine definierte
-``Home'' Position gebracht werden. Dazu müssen diese Positionen manuell angefahren
-und Anhand von Markierungen an den Gelenken überprüft werden. Danach muss aus 
+"`Home"'-Position gebracht werden. Dazu müssen diese Positionen manuell angefahren
+und anhand von Markierungen an den Gelenken überprüft werden. Danach muss aus 
 den aktuellen Werten der Gelenke und den eingestellten Werten manuell ein neuer
 Referenzwert berechnet und eingegeben werden. Fehler in diesem Schritt wirken 
 sich auf die gesamte nachfolgende Kalibrierung aus und lassen sich nicht beheben.
@@ -32,10 +35,10 @@ ist es dem \ac{LWA} nicht möglich, alle dieser für den \ac{LBR3} festgelegten
 Positionen zu erreichen. Desweiteren ist eine Berechnung der Positionen
 für andere Roboter, die sich wie der \raw\ durch den gesamten Aufbau vom 
 \cob\ unterscheiden, nicht möglich, da dessen Kameras und Aktoren einen vollkommen
-anderen Sicht- und Wirkungsbereich haben. Dadurch werden nicht genug Daten für die spätere 
+anderen Sicht- und Wirkungsbereich haben. Dadurch werden nicht genügend Daten für die spätere 
 Optimierung aufgenommen, was die Genauigkeit der Kalibrierung reduziert.
 Außerdem mussten für die Kamerakalibrierung und die kinematische Kalibrierung 
-des \cob\ zweimal nacheinander Daten von den selben Positionen des Arms und Torsos
+des \cob\ zweimal nacheinander Daten von denselben Positionen des Arms und Torsos
 aufgenommen werden.
 
 \subsection{Bestimmung der Sample-Positionen}
@@ -49,8 +52,8 @@ beliebig viele gültige Positionen berechnet werden. Eine weitere Möglichkeit
 ist, das Festlegen eines spiralförmigen Pfades der vom Roboterarm abgefahren 
 und regelmäßig auf die Sichtbarkeit des Kalibrierobjekts überprüft wird. Hierdurch
 wird ein sichtbares Feld abgesteckt und gleichzeitig Samples für die 
-Optimierung aufgenommen. Bei der dritten Möglichkeit werden im voraus Positionen
-Anhand einer Strategie berechnet und abgespeichert.
+Optimierung aufgenommen. Bei der dritten Möglichkeit werden im Voraus Positionen
+anhand einer Strategie berechnet und abgespeichert.
 
 \subsubsection{Manuelles Einlernen}
 \label{ssub:Manuelles Einlernen}
@@ -64,8 +67,9 @@ Berechnung der inversen Kinematik des Armes und des Torsos.
 \label{ssub:Abfahren und Überprüfen eines Pfades}
 
 Bei der Lösung des 
-definierten Bereichs, in dem Samples aufgenommen werden, kann die Qualität und die
-Position des Arms ohne die eigentliche Hardware in Simulation berechnet werden, 
+definierten Bereichs, indem Samples aufgenommen werden, kann die Qualität der 
+Samplepositionen und die Position des Arms ohne die eigentliche Hardware durch
+die Simulation berechnet werden, 
 während bei dem Abfahren eines Pfades die Gelenkwinkel unmittelbar vor der 
 Bewegung berechnet werden. Der Vorteil dieser Methode ist, dass zur Berechnung
 der Samplepositonen nur ein grobes Modell der Lage der optischen Achsen benötigt
@@ -85,9 +89,9 @@ Gelenkwinkel in der Simulation ist, dass weniger ungültige Samples angefahren w
 und damit der Zeitaufwand der Datenaufnahme reduziert wird. Außerdem können alle
 Trajektorien des Arms und des Torsos in der Simulation auf Kollisionen überprüft
 werden. Eine rechnerische Überprüfung auf Kollisionen ist wegen der noch nicht 
-erfolgten Kalibrierung noch nicht zuverlässig möglich. Ein Nachteil ist, dass
+erfolgten Kalibrierung nicht zuverlässig möglich. Ein Nachteil ist, dass
 Modelle zur Strategie der Berechnung erzeugt werden müssen, die genug Toleranz für Fehler zulassen, um die 
-noch nicht erfolgte Kalibrierung auszugleichen.
+nicht erfolgte Kalibrierung auszugleichen.
 
 Die Entscheidung fiel wegen der erheblich sichereren Durchführung für die Berechnung
 und manuelle Überprüfung der Samples in Simulation. 
@@ -104,7 +108,7 @@ zu bestimmen. Dazu wurden nur die Daten des zweiten Aufnahmeschritts für die
 kinematische Kalibrierung des Roboters verwendet. Für die Aufnahme wurden unter
 anderem die Nachrichten, die die Kameraparameter und die Kamerabilder enthalten,
 aufgezeichnet und in einer Datei gespeichert. Die Entzerrung der Bilddaten kann
-aber auch nach den angegebenen Formeln \footnote{Siehe Kapitel \ref{sub:Kamerakalibrierung}} erst bei
+aber auch nach den angegebenen Formeln\footnote{Siehe Kapitel \ref{sub:Kamerakalibrierung}} erst bei
 der Optimierung erfolgen. Genauso können die Kameraparameter auch nachträglich
 aus der entsprechenden Kalibrierungsdatei gelesen werden. Durch diese Modifikationen
 können alle für die Kalibrierung notwendigen Daten in einem Aufnahmeschritt 
@@ -113,7 +117,8 @@ erfasst werden.
 Durch den fehlenden Aufnahmeschritt kann der Zeitaufwand der Datenaufnahme 
 und damit der gesamten Kalibrierung reduziert werden.
 Weil Armbewegungen ohne Kollisionsberechnung zu Schäden an der Hardware und der
-Umwelt führen können, kann außerdem die Sicherheit der Kalibrierung erhöht werden.
+Umwelt führen können, kann durch die geringere Anzahl an Bewegungen außerdem 
+die Sicherheit der Kalibrierung erhöht werden.
 
 % section Datenaufnahme (end)
 
@@ -139,10 +144,12 @@ Kalibrierung benötigten \ac{DH-Parameter} wurden bisher manuell berechnet und
 in die \texttt{system.yaml} eingegeben. Die Beschränkungen der \ac{DH-Parameter}
 sind dadurch auch am Roboter vorhanden. Außerdem gibt es nicht für alle am \cob\ 
 eingesetzten Komponenten ausreichend genaue \ac{DH-Parameter}. Die bisher manuell
-ausgeführte Berechnung der \ac{DH-Parameter} sollte deswegen automatisiert oder
-ersetzt werden. Dazu bieten sich drei Möglichkeiten, die evaluiert wurden. 
+ausgeführte Berechnung der \ac{DH-Parameter} soll deswegen automatisiert oder
+ersetzt werden. Dazu bieten sich die drei Möglichkeiten, der automatischen 
+Berechnung der \ac{DH-Parameter}n, die Berechnung der Vorwärtskinematik während
+der Optimierung durch den entsprechenden \ac{ROS}-Service oder das abspeichern 
+der Transformationen während der Datenaufnahme, die evaluiert werden. 
 
-\todo{Die drei möglichkeiten erklären}
 
 
 
@@ -176,7 +183,7 @@ Gesamtrechenzeit aus.
 \label{ssub:Berechnen der Vorwärtskinematik mit dem ROS-Service}
 
 Eine Alternative hierzu ist die Nutzung des ROS-Services zur Berechnung der Vorwärtskinematik.
-Hierzu werden weiterhin die Gelenkwinkel erfasst und abgelegt. Während der Optimierung werden
+Dazu werden weiterhin die Gelenkwinkel erfasst und abgelegt. Während der Optimierung werden
 die Gelenkwinkel an den ROS-Node, der für die Berechnungen der Vorwärtskinematik zuständig ist, 
 übergeben und die Transformation berechnet. Dadurch müssen in den Konfigurationsdateien keine
 \ac{DH-Parameter} abgelegt sein und es lassen sich alle modellierten Arten von Aktoren berechnen.
@@ -210,29 +217,30 @@ erhöht sich der Overhead und damit auch die Gesamtrechenzeit.
  zu berechnen. Die Transformation kann also für jeden Roboter ohne zusätzliche
  Änderungen berechnet werden.
  
- Dafür muss schon bei der Datenaufnahme bekannt sein, welche Transformationen für die Optimierung benötigt 
+ Dafür muss bereits bei der Datenaufnahme bekannt sein, welche Transformationen für die Optimierung benötigt 
  werden. Das bedeutet, dass die in Abbildung \ref{fig:pfade} dargestellten Pfade bereits genau
  definiert sein müssen und nur wenige Änderungen nachträglich gemacht werden können. Bei der 
  Aufnahme von Gelenkwinkeln ist diese Festlegung erst bei der Kalibrierung von Bedeutung. 
  Wenn nachträglich Änderungen an den angegebenen Pfaden gemacht werden, müssen 
  erneut Daten aufgenommen werden. Bei den anderen Methoden ist eine Änderung nach
- der Datenaufnahme möglich. Dafür wird durch die gezielte Aufnahme von Daten der
- Speicherbedarf verringert.
+ der Datenaufnahme möglich.
 
  Da sich bei dieser Methode die Dateistruktur ändert, müssen viele Teile zur 
  Berechnung des Modells des Optimierers angepasst oder neu entwickelt werden. 
 % subsection Denavit-Hartenberg Parameter (end)
 
-
-Umgesetzt wurde trotz erheblichem Mehraufwand die letzte Alternative, die dafür
-die am universellsten einsetzbarste Alternative ist. 
+Trotz dem erheblichen Mehraufwand wird diese Alternative umgesetzt. Verglichen 
+mit den anderen Lösungen ist diese, durch die Aufhebung der Beschränkungen der 
+\ac{DH-Parameter}, die universellste. Zudem müssen für andere neue Funktionen 
+Änderungen am Modell des Optimierers vorgenommen werden, die die gleichen 
+Funktionen betreffen.
 
 \subsection{Verkettung von Aktoren}
 \label{sub:Verkettung von Aktoren}
 
 Durch das Format der Parameterdateien des bisherigen Kalibrieralgorithmus konnten
 nicht alle Eigenschaften des \cob\ abgebildet werden. Dazu gehören Aktoren, die
-an anderen Aktoren montiert sind. Beim \cob\ führt das zu Einschränkungen die 
+an anderen Aktoren montiert sind. Beim \cob\ führt das zu Einschränkungen, die 
 die Kopfachse betreffen. Beim \cob\ ist der Kopf mit einer Achse an einer 
 unbekannten Positon auf dem Torso befestigt. Für die bisherige Kalibrierung wurde,
 um dies zu umgehen, die Kopfachse als statische Transformation angesehen. Dadurch
@@ -244,3 +252,22 @@ Um dies zu ermöglichen muss der Dateiaufbau der Konfigurationsdatei
 \texttt{sensors.yaml} und das Erzeugen des Modells für die Optimierung geändert
 werden.
 % section Optimierung (end)
+
+
+\section{Extrinsische Kalibrierung der Laserscanner}
+\label{sec:extr Kalibrierung der Laserscanner}
+
+
+Für die Kalibrierung von Laserscannern gibt es je nach Ausführung der Scanner
+verschiedene Verfahren zur Kalibrierung. 3D Laserscanner, die zusätzlich zu den
+Entfernungsdaten auch Intensitätswerte der reflektierten Strahlen liefern,
+können wie Kameras behandelt werden. Die Intensitäten lassen sich zu einem Bild
+zusammensetzen auf dem, wie auf dem Kamerabild, das Kalibrierobjekt erkannt
+werden kann. Die 6\ac{DOF} Pose des Objekts lässt sich durch die gemessenen 
+Entfernungen noch genauer berechnen.\cite{Pradeep2010}
+
+Da die am \cob\ eingesetzten Laserscanner nur 2D Scanner sind, die keine 
+Helligkeitswerte messen, muss ein anderes Verfahren gefunden werden, mit dem
+die Position der Laserscanner kalibriert werden kann.
+Die Kalibrierung der Montageposition besteht auch hier aus dem erkennen eines
+Kalibrierobjektes und der Optimierung der Parameter. 

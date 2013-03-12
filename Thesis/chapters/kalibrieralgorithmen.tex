@@ -8,7 +8,7 @@ Zu
 Beginn der Arbeit gab es bereits einige Algorithmen zur automatischen
 Kalibrierung der am Roboter eingesetzten Hardwarekomponenten. Die wichtigsten
 und bereits am \cob implementierten sind die Verfahren zur Kalibrierung von
-Mono- und Stereokameras, die OpenCV \footnote{Open Computer Vision: Eine 
+Mono- und Stereokameras, die OpenCV\footnote{Open Computer Vision: Eine 
 Open-Source Softwarebibliothek die Funktionen zur Bildverarbeitung bereitstellt}
 zur Verfügung stellt und das von Vijay
 Pradeep entwickelte Verfahren zur Kalibrierung von Robotern mit mehreren Armen
@@ -38,19 +38,19 @@ Zur Berechnung der Projektion eines Punktes im Raum auf einen Film oder
 Bildsensor muss ein Modell erzeugt werden, das die Abbildungseigenschaften
 einer Kamera möglichst einfach, aber genau genug wiedergibt. Dieses Modell kann
 durch eine Kombination des sogenannten Lochkameramodells und des modellierten
-Einflusses von optischen Linsen beschrieben werden \cite{Bradski2008}.
+Einflusses von optischen Linsen beschrieben werden.\cite{Bradski2008}
 
 Die Lochkamera besteht, wie in Abbildung \ref{fig:Lochkamera} aus einer 
 geschlossenen Box, in der auf einer Seite ein
-Sensor oder Film angebracht ist. Gegenüber vom Sensor befindet sich ein kleines
-Loch, das optische Zentrum C, durch das idealerweise nur ein Lichtstrahl pro
+Sensor oder Film angebracht ist. Gegenüber vom Sensor befindet sich eine kleine
+Öffnung, das optische Zentrum C, durch das idealerweise nur ein Lichtstrahl pro
 Objektpunkt auf den Sensor
 trifft. Gemäß den geometrischen Gesetzen ergibt sich ein auf dem Kopf stehendes
 Abbild des Objektes auf der Bildebene oder dem Sensor. Zur Vereinfachung der
 Rechnung kann eine virtuelle Bildebene vor der Kamera angenommen werden, die
 durch eine Punktspiegelung der Bildebene am optischen Zentrum erzeugt werden
 kann. Im Vergleich zur Berechnung für die Bildebene sind die Werte hierbei
-invertiert\cite{forsyth2011}.
+invertiert.\cite{forsyth2011}
 
 
 \begin{figure}[htpb]
@@ -75,7 +75,7 @@ optischen Achse der Kamera übereinstimmt, werden die projizierten Punkte noch u
 $c_x$ und $c_y$ verschoben.
 
 Eine weitere Besonderheit bei digitalen Kameras ist die Form der Pixel auf dem
-Sensor. Da diese Rechteckig sind, müssen im Modell verschiedene Werte $f_x$ und
+Sensor. Da diese rechteckig sind, müssen im Modell verschiedene Werte $f_x$ und
 $f_y$ für die Fokallänge angenommen werden.\cite{Bradski2008}
 
 Wenn diese beiden Besonderheiten berücksichtigt und in
@@ -118,10 +118,10 @@ Bei der Kalibrierung einer Kamera wird also die Projektionsmatrix $Pr$ oder die
 Kameramatrix $K$ berechnet, wobei gilt, dass \begin{equation} Pr=
   \begin{bmatrix} f_x&0&c_x&0\\ 0&f_y&c_y&0\\ 0&0&1&0 \end{bmatrix} = \left[K
   \left(0,0,0\right)^T\right] \end{equation}.
-
+\cite{Bradski2008}
 Der größte Nachteil bei Lochkameras ist die geringe Lichtmenge, die durch das
 Loch auf den Sensor fällt. Dadurch würde der Aufnahmevorgang für ein Bild sehr
-lange brauchen, bis genug Licht auf den Sensor gefallen ist.
+lange brauchen, bis ausreichend Licht auf den Sensor gefallen ist.
 
 Um diesen Nachteil auszugleichen, werden in Kameras Linsen verwendet, die das
 Licht bündeln, um mehr Licht auf den Senor fallen zu lassen. Durch Linsen werden
@@ -146,7 +146,7 @@ Die korrigierten Bildpunkte ergeben sich damit zu
 
 Die Verzerrung durch eine nicht parallele Einbaulage des Sensors zur Linse lässt
 sich durch die zwei
-Parameter $p_1$ und $p_2$ beschreiben \cite{Bradski2008}.
+Parameter $p_1$ und $p_2$ beschreiben.\cite{Bradski2008}
 
 Der am \cob eingesetzte Kalibrieralgorithmus wurde von Zhang und Sturm
 entwickelt und basiert auf der Erkennung eines definierten Musters. Dazu werden
@@ -155,10 +155,11 @@ eines Schachbretts - erkannt und zusammen mit einem Modell des Musters an den
 Kalibrieralgorithmus übergeben. Dieser geht im ersten Schritt von einer
 Lochkamera ohne Verzerrungen durch Linsen aus. Anschließend wird der
 Parametervektor $\left[k_1,k_2,p_1,p_2,k_3\right]$ berechnet.\cite{zhang2000flexible}
+
+
 Man erhält also alle wichtigen Parameter, um einen Punkt im Raum auf einen Punkt auf dem Sensor
 zu projizieren oder einem Punkt auf dem Sensor eine Linie im Raum zuzuordnen.
-
-Außerdem kann dadurch die Pose eines bekannten Objekts im Raum berechnet
+Außerdem kann dadurch die Pose, also die Position und die Orientierung, eines bekannten Objekts im Raum berechnet
 werden. 
 
 % subsubsection Monokamerakalibrierung (end)
@@ -187,8 +188,8 @@ Transformation durch eine 6D Transformation angegeben werden. Aus dieser
 Transformation und den intrinsischen Kameraparametern kann dann ein neues Bild
 berechnet werden, in dem alle Bedingungen erfüllt sind.
 
-Die Kalibrierung eines Stereokamerapaares benötigt also zusätzlich zu den
-Parametern für eine Kamera die Transformation zwischen den Kameras bestehend
+Die Kalibrierung eines Stereokamerapaares benötigt also, zusätzlich zu den
+Parametern für eine Kamera, die Transformation zwischen den Kameras bestehend
 aus einem 3D Translationsvektor und einer 3x3 Rotationsmatrix.
 
 Zur Kalibrierung werden wie bei der Monokamerakalibrierung Bilder von einem
@@ -211,23 +212,22 @@ Störeinflüsse zu kompensieren. Dazu wird der Median der gefundenen
 Transformationen als Startwert für ein Optimierungsverfahren verwendet, das
 zuverlässig die beste Lösung findet.
 
-Mit den gefundenen Parametern können anschließend die Rectifizierungsmatrizen
+Mit den gefundenen Parametern können anschließend die Rektifizierungsmatrizen
 für beide Kameras berechnet werden, die auf die Bilder angewendet ein Bildpaar
 ergeben, bei dem alle Bedingungen für ein ideales Stereokamerasystem zutreffend
-sind \cite{Bradski2008}.
+sind.\cite{Bradski2008}
 % subsubsection Stereokamerakalibrierung (end)
 
 % subsection Kamerakalibrierung (end) section Kalibrieralgorithmen (end)
-
 
 \subsection{Kinematische Kalibrierung} % (fold) 
 
 \label{sub:Kinematische Kalibrierung}
 
-Zur Kinematischen Kalibrierung des Roboters wird ein Verfahren
-verwendet, das auf dem Kalibrierverfahren für den PR2 von Vijay Pradeep basiert
-\cite{Pradeep2010}.
-Nach der Festlegung, welche Transformationen kalibriert werden sollen, werden
+Zur kinematischen Kalibrierung des Roboters wird ein Verfahren
+verwendet, das auf dem Kalibrierverfahren für den PR2 von Vijay Pradeep basiert.\cite{Pradeep2010}
+
+Nach der Festlegung welche Transformationen kalibriert werden sollen, werden
 Pfade festgelegt, über die transformiert wird. Diese Pfade haben einen
 gemeinsamen Ausgangspunkt und als Endpunkt entweder einen Sensor oder ein
 detektierbares Objekt. Außerdem müssen alle vorher festgelegten
@@ -253,7 +253,7 @@ Im darauf folgenden Datenaufnahmeschritt werden an jeder vorher definierten
 Position die Sensordaten zusammen mit den aktuellen Gelenkwinkeln der Aktoren
 aufgenommen. Diese Daten werden dann an den Optimierer übergeben.
 
-Der Optimierer basiert auf dem Levenberg-Marquardt Verfahren\cite[Abschnitt 1]{pr2_estimation}.
+Der Optimierer basiert auf dem Levenberg-Marquardt Verfahren.\cite[Abschnitt 1]{pr2_estimation}
 Hierbei werden
 für den \cob drei Durchläufe des Optimiers genutzt, wobei in jedem Schritt
 weitere Parameter zur Optimierung freigegeben werden. Dadurch können lokale
@@ -267,7 +267,7 @@ des Kalibrierobjektes und die Position der Sensoren im Raum berechnet werden.
 Die modellierten Punkte lassen sich anschließend über die Sensorparameter in
 simulierte Messwerte umrechnen. Der Fehler, der durch Modifikationen an einzelnen
 Transformationen am Modell minimiert werden soll, ist die Differenz der
-berechneten und der gemessenen Messwerte \cite{levi2012autonomous}.
+berechneten und der gemessenen Messwerte.\cite{levi2012autonomous}
 Die Fehlerberechnung wird außerdem genutzt, um die Jacobimatrix für die Optimierung zu berechnen. Dazu werden alle
 vorhandenen Parameter einzeln variiert um den Einfluss auf den Fehler zu berechnen.
 Im nächsten Schritt werden die Parameter dann gezielt in die richtige Richtung

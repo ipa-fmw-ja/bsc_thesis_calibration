@@ -1,6 +1,8 @@
-\chapter{Aktueller Stand} \section{Das Robot Operating System}
+\chapter{Aktueller Stand}
 
-\ac{ROS} ist ein Framework, das als Grundlage für Forschungs- und
+\section{Das Robot Operating System}
+
+Das \acl{ROS} ist ein Framework, das als Grundlage für Forschungs- und
 Entwicklungsroboter dienen soll. \ac{ROS} wird als Open-Source Software von
 Willow-Garage sowie einigen weiteren Einrichtungen entwickelt. Das Hauptziel bei
 der Entwicklung von \ac{ROS} ist es, ein Framework zu schaffen, in dem
@@ -11,8 +13,8 @@ zusammengefasst, die einen größeren Funktionsblock einer Anwendung darstellen.
 Beispielhaft hierfür ist das Package \texttt{cob\_calibration\_executive} mit
 dem alle Bewegungen, die der Roboter während der Kalibrierung macht, gesteuert
 werden. Alle für eine Anwendung notwendigen neuen Funktionsblöcke werden in
-Stacks zusammengefasst. Die Änderungen und Erweiterungen die in dieser
-Bachelorthesis gemacht wurden, betreffen hauptsächlich das Stack
+Stacks zusammengefasst. Die Änderungen und Erweiterungen, die in dieser
+Bachelorthesis gemacht werden, betreffen hauptsächlich das Stack
 \texttt{cob\_calibration} in dem alle Funktionen für die Kalibrierung abgelegt
 sind. 
 
@@ -32,7 +34,7 @@ durch die Funktion der beteiligten Kommunikationspartner.
     viele Nodes Nachrichten hinterlassen können. Die jeweils aktuellste
     Nachricht kann dann wiederum von beliebig vielen Nodes gelesen werden. Die
     Nachrichten enthalten keine Informationen, von wem sie gesendet werden, also
-    gibt es für den Empfänger keine Möglichkeit, zu antworten oder zu quitieren.
+    gibt es für den Empfänger keine Möglichkeit, zu antworten oder zu quittieren.
     Dieses Verfahren wird zum Beispiel beim Verbreiten von Sensordaten
     eingesetzt.
 
@@ -47,14 +49,14 @@ durch die Funktion der beteiligten Kommunikationspartner.
 
 Die Schnittstellen sind dabei so entwickelt, dass es problemlos möglich ist, die
 Nodes auf unterschiedlichen vernetzten Computern auszuführen.  Um geschriebenen
-Code auf anderen Robotern zu verwenden, muss also nur dafür gesorgt werden, dass
+Code auf anderen Robotern zu verwenden, muss also lediglich dafür gesorgt werden, dass
 alle Kommunikationsschnittstellen vorhanden sind und richtig angewandt werden.
 Durch die modulare Struktur von \ac{ROS} können viele vorhandene Lösungen für
 die eigenen Aufgaben genutzt und angepasst werden.  Außerdem bietet \ac{ROS}
 eine Simulationsumgebung und eine nahtlose Anbindung an andere Softwarepakete
 wie OpenCV.
 
-In \ref{fig:ros} ist der Ablauf der Datenaufnahme schematisch dargestellt. Der
+In Abbildung \ref{fig:ros} ist der Ablauf der Datenaufnahme schematisch dargestellt. Der
 \ac{ROS}-Node \allowbreak \texttt{collect\_data} schickt über \ac{ROS} eine Nachricht
 an den Node \texttt{arm\_controller} der den am PC1 angeschlossenen 
 Roboterarm steuert. Außerdem werden die Daten der am PC2 angeschlossenen Kamera
@@ -82,7 +84,7 @@ Zu Begin der Arbeit liegt bereits eine vollständige Beschreibung aller
 relevanten Komponenten der zu kalibrierenden Roboter vor. Daraus lässt sich
 sowohl die Vorwärtskinematik, also die Transformation eines Koordinatensystems
 einer Komponente, beispielsweise der Befestigungspunkt der Roboterhand am
-Roboterarm, zu einem anderen Koordinatensystem der selben Komponente zum
+Roboterarm, zu einem anderen Koordinatensystem derselben Komponente zum
 Beispiel der Befestigungspunkt des Arms an der Roboterplattform, anhand von
 Gelenkwinkeln berechnen. Außerdem kann die inverse Kinematik, also die
 benötigten Gelenkwinkel zum Erreichen eines bestimmten Punktes, für den Arm
@@ -92,16 +94,16 @@ berechnet werden.
 
 \section{Kalibrierung}
 
-Der Ausgangszustand der automatischen Kalibrierung lieferte für den \cob 3-3
+Der Ausgangszustand der automatischen Kalibrierung liefert für den \cob 3-3
 gute und zuverlässige Ergebnisse. Zur Kalibrierung muss ein
 Kalibrierungsmuster, das für den \cob bisher ein Schachbrettmuster mit neun mal
 sechs inneren Ecken \cite{opencv_chessboard} ist, anstatt der \ac{SDH} an
 den Arm montiert werden. Nach dem anschließenden Einstellen der Nullwerte für
-die Aktoren beginn die erste Datenaufnahme für die Kalibrierung der
+die Aktoren beginnt die erste Datenaufnahme für die Kalibrierung der
 Stereokameras. Die Kameras Microsoft Kinect oder Asus XTion Pro müssen aufgrund der
 guten Kalibrierung vom Hersteller nicht kalibriert werden. 
 
-Mit den gewonnenen Daten kann dann der Kalibrieralgorithmus für Stereokameras,
+Mit den gewonnenen Daten kann der Kalibrieralgorithmus für Stereokameras,
 der von OpenCV bereitgestellt wird sowohl die intrinsischen Kameraparameter als
 auch den Versatz der Kameras zueinander, den sogenannten Baselineshift,
 berechnen.
@@ -112,7 +114,8 @@ gefahren. An jeder Position werden die aktuellen Gelenkwinkel zusammen mit der,
 von den Kameras erkannten, Position des Kalibrierungsmusters aufgenommen.
 
 Im letzten Schritt berechnet ein Optimierer anhand der aufgenommenen Daten die
-gesuchten Transformationen \footnote{Siehe Kapitel \ref{sub:Kinematische Kalibrierung}}\cite{Haug2012}
+gesuchten Transformationen\footnote{Siehe Kapitel 
+  \ref{sub:Kinematische Kalibrierung}}.\cite{Haug2012}
 
 
 %Die automatische Kalibrierung des \cob 3-6 konnte jedoch nicht erfolgreich
@@ -125,12 +128,12 @@ gesuchten Transformationen \footnote{Siehe Kapitel \ref{sub:Kinematische Kalibri
 %mussten für alle Aktoren und Manipulatoren die \ac{DH-Parameter} ermittelt und
 %eingetragen werden.
 
-Im folgenden werden die vorhanden Konfigurationsdateien mit den in ihnen
+Im Folgenden werden die vorhanden Konfigurationsdateien mit den in ihnen
 gespeicherten Parametern erklärt.
 
 
 
-\subsection{texttt{system.yaml}}
+\subsection{system.yaml}
 
 Die im Package \texttt{cob\_robot\_calibration}
     für den \cob 3-3 vorhandene \texttt{system.yaml} Datei enthält alle für die
@@ -143,34 +146,42 @@ Die im Package \texttt{cob\_robot\_calibration}
         Kalibrierungsmusters. Dabei werden sowohl bekannte als auch Näherungen
 	für unbekannte Transformationen angegeben.
 
-      \item[Beschreibungen der Aktoren] Die Berechnung der
+      \item[Beschreibungen der Aktoren] Zur Berechnung der
         Vorwärtskinematik eines Aktors benötigt der Optimierer neben den
         \acl{DH-Parameter}n auch Informationen zum Übersetzungsverhältnis und
         zur Genauigkeit der einzelnen Gelenke. Das Übersetzungsverhältnis wird
-        schon im Treiber des Aktors berücksichtigt und ist hier immer mit 1.0
+        bereits im Treiber des Aktors berücksichtigt und ist hier immer mit 1.0
         anzugeben.
 
       \item[Kameraparameter] Hier können Kameraparameter definiert werden. Da
-        bei der vorliegenden Kalibrierung aber schon verarbeitete
+        bei der vorliegenden Kalibrierung schon verarbeitete
         Bildinformationen eingesetzt werden sind hier nur Standardwerte
         eingetragen.
 
     \end{description}
 
-  \subsection{texttt{sensors.yaml}} In der Konfigurationsdatei werden die Ketten aus
+  \subsection{sensors.yaml} In der Konfigurationsdatei werden die Ketten aus
     denen der Roboter zusammengesetzt werden kann definiert. Dazu wird in
-    \texttt{camera\_chains} die die Ketten zu den Kameras angeben und 
-    \texttt{chains}, die die kinematische Kette zum Kalibrierobjekt beschreiben
+    \texttt{camera\_chains} die die Ketten zu den Kameras angeben, und 
+    \texttt{chains}, die die kinematische Kette zum Kalibrierobjekt beschreiben,
     unterschieden.
     Dazu wird jeder Kette eine eindeutige \texttt{sensor\_id} sowie eine
-    Beschreibung der Transformation zum Endpunkt zugeordnet. Die Kette besteht
-    aus einer festen Transformation vom Roboterursprung zum Ursprung des Aktors
-    (\texttt{before\_chain}), aus der \texttt{chain\_id} zur Zuordnung einer in
-    der \texttt{system.yaml} angegebenen Aktoren sowie deren Anzahl an Gelenken 
-    und der \texttt{after\_chain} für die feste Transformation vom Ende des Aktors
-    zum Ursprung des Sensors oder Kalibrierobjekts.
+    Beschreibung der Transformation zum Endpunkt zugeordnet.
+    
+    Die Kette besteht aus den zwei festen Transformationen \texttt{before\_chain}
+    und \texttt{after\_chain}, die die Transformation vom Roboterursprung zum 
+    Aktor und vom Endpunkt des Aktors zum Sensor beschreiben. Zusätzlich ist 
+    eine eindeutige \texttt{chain\_id} zur Zuordnung der Kette zu den in der 
+    \texttt{system.yalm} angegebenen Beschreibung der Aktoren, sowie die Anzahl
+    der Gelenke des Aktors
+    %Die Kette besteht
+    %aus einer festen Transformation vom Roboterursprung zum Ursprung des Aktors
+    %(\texttt{before\_chain}), aus der \texttt{chain\_id} zur Zuordnung einer in
+    %der \texttt{system.yaml} angegebenen Aktoren sowie deren Anzahl an Gelenken 
+    %und der \texttt{after\_chain} für die feste Transformation vom Ende des Aktors
+    %zum Ursprung des Sensors oder Kalibrierobjekts.
 
-  \subsection{texttt{free\_x.yaml}} Die drei \texttt{free\_x.yaml} Dateien haben den 
+  \subsection{free\_x.yaml} Die drei \texttt{free\_x.yaml} Dateien haben den 
     gleichen Aufbau wie die \texttt{system.yaml}. Sie werden benötigt um dem 
     Optimierer mitzuteilen, wann welche Parameter variabel sind.
 

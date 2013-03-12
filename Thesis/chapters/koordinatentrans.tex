@@ -3,7 +3,7 @@
 Ein wichtiges Thema bei der Robotik ist die Transformation eines 
 Koordinatensystems in ein anderes. In der Robotik bekommt jedes
 Objekt, das maßgeblich an einer Operation beteiligt ist, ein eigenes
-Koordinatensystem, um seine Lage, bestehend aus Position und Orientierung
+Koordinatensystem um seine Lage, bestehend aus Position und Orientierung
 im Raum zu beschreiben. Dadurch lässt sich berechnen, wie ein Objekt gegriffen
 werden muss oder Kollisionen vermieden werden. Die Transformation von einem 
 Koordinatensystem in ein anderes, wie sie zum Beispiel vorkommt, wenn die 
@@ -23,12 +23,19 @@ des \cob\ orthonormale Koordinatensysteme.
 Die Translation beschreibt nur die Position eines Punktes im Raum. Für die 
 Koordinatentransformation ist dieser Punkt der Ursprung des neuen Koordinatensystems.
 Der Punkt P wird im n-Dimensionalen durch einen Koordinatenvektor mit n 
-Elementen angegeben. Räumliche Transformationen beschränken sich auf drei Dimensionen
-und damit den Punkt $P= [p_x\\p_y\\p_z]^T$. Jedes Element $p_n$ gibt die Entfernung
-entlang der n-ten Achse des Parent-Frames an.
+Elementen angegeben. Jedes Element $p_n$ gibt die Entfernung
+entlang der n-ten Achse des Parent-Frames an. Räumliche Transformationen beschränken sich auf drei Dimensionen
+und damit den Punkt $P= [p_x p_y p_z]^T$.
 
 Da für jeden Punkt festgelegt sein muss, in welchem Koordinatensystem $A$ er angegeben
 ist, wird das Bezugskoordinatensystem in der Form $^AP$ angegeben.
+
+Translationen lassen sich durch Addition zusammenfassen. Wenn ein Punkt im 
+Koordinatensystem A, das um den Vektor $Z$ vom Koordinatensystem B verschoben ist,
+angegeben
+ist und seine Position abhängig vom Koordinatensystem B angegeben werden soll,
+errechnet sich seine neue Position aus $P' = P + Z$.
+
 
 \subsection{Rotation}
 \label{sub:Rotation}
@@ -96,6 +103,14 @@ Die Rotationsmatrix berechnet sich daraus mit $c_x=cos(x)$ und $s_x=sin(x)$ zu:
   
   \end{pmatrix}
 \end{equation}
+\cite{sciavicco2000modelling}
+
+Mit dieser Rotationsmatrix kann die Position eines Punktes in einem zu seinem 
+Ursprungskoordinatensystem, gedrehten Koordinatensystem angegeben werden. 
+Der neue Punkt $P'$ errechnet sich dabei aus $P' = R * P$.
+Der Vorteil der Angabe einer Rotation als Matrix anstatt als Tripel von Winkeln
+entsteht aus der einfachen Matrixmultiplikation zur Berechnung einer Rotation.
+\cite{craig2005}
 
 Alle für den \cob\ angegebenen Orientierungen in der Roboterbeschreibung sind 
 als Roll-Pitch-Yaw Winkel angegeben. Außerdem kann durch vorhandene Nodes 
@@ -104,6 +119,32 @@ anderen Koordinatensystem des \cob\ in einem Translationsvektor und den Roll-Pit
 Winkeln berechnet werden.
 
 
+\subsubsection{Verkettung von Transformationen}
+\label{ssub:Verkettung von Transformationen}
+
+Die Transformation eines Koordinatensystems zu einem anderen lässt sich also 
+durch eine Matrixmultiplikation und eine Vektoraddition ausdrücken. 
+Um dies zu vereinfachen werden die Rotationsmatrix und der Translationsvektor
+zu einer Translationsmatrix zusammengefasst. Die Zusammenfassung ist nur 
+möglich, wenn die dadurch entstehende $3\times4$ Matrix zu einer homogenen
+$4\times4$ erweitert wird. Die Translationsmatrix wird dann mit 
+
+\begin{equation}
+  ^A_BT =\begin{pmatrix}
+    r_{11}&r_{12}&r_{13}&t_1\\
+    r_{21}&r_{22}&r_{23}&t_2\\
+    r_{31}&r_{32}&r_{33}&t_3\\
+    0&0&0&1
+  \end{pmatrix}
+\end{equation}
+
+angegeben.
+Dadurch lässt sich der Übergang von einem Koordinatensystem in ein anderes 
+durch eine Matrixmultiplikation angeben.
+
+
+
 \subsubsection{Denavit-Hartenberg Parameter}
 \label{ssub:Denavit-Hartenberg Parameter}
 \input{chapters/dh-parameter}
+

@@ -18,7 +18,7 @@ Zusätzlich zu den oben angesprochenen einfachen Bauformen für Serviceroboter
 gibt es Roboter für komplexere Aufgaben, die aber noch nicht verbreitet oder 
 erhältlich sind. Beispiele hierfür sind Tankroboter, die dem Kunden beim Tanken 
 die "'Schmutzarbeit"'\nocite{tankpitstop} abnehmen oder persönliche Assistenten, 
-wie dem PR2 von Willow Garage \footnote{Willow Garage ist ein Kalifornisches 
+wie dem PR2 von Willow Garage\footnote{Willow Garage ist ein Kalifornisches 
 Unternehmen, das die Entwicklung ziviler Roboter durch Hardware und Open-Source
 Software beschleunigen will.} oder der \cob des \ac{IPA}. Die beiden letztgenannten 
 wurden als vielseitige Assistenten entwickelt, die in verschiedenen 
@@ -57,7 +57,7 @@ In vorhergehenden Arbeiten wurde ein Verfahren implementiert, mit dem es möglic
 ist, eines der zwei in Stuttgart eingesetzten Modelle des \cob automatisch zu 
 kalibrieren. Für diese Kalibrierung muss der Roboter teilweise 
 demontiert werden, um bestimmte Parameter manuell ablesen und einstellen zu 
-können. Außerdem müssen die \ac{DH-Parameter} \footnote{Siehe Kapitel \ref{dh-p}} des Torsos und des Arms von Hand 
+können. Außerdem müssen die \ac{DH-Parameter}\footnote{Siehe Kapitel \ref{dh-p}} des Torsos und des Arms von Hand 
 ausgerechnet und in eine Konfigurationsdatei übertragen werden. Die zur 
 Kalibrierung notwendigen Positionen des Arms werden in einer weiteren Datei als 
 Gelenkwinkel abgelegt. Um einen neuen Roboter zu kalibrieren müssen die 
@@ -79,7 +79,7 @@ Generation gibt es bislang sieben Modelle, von denen zwei in Stuttgart am \ac{IP
 eingesetzt werden. Dies sind die beiden Modelle cob3-3 und cob3-6. Die anderen
 Modelle wurden an externe Forschungseinrichtungen verkauft und waren für Tests
 an der Hardware nicht verfügbar. Der Grundaufbau ist für jeden \cob der dritten
-Generation der Selbe und am Beispiel des \cob 3-2 in Abbildung \ref{setup} dargestellt.
+Generation derselbe und am Beispiel des \cob 3-2 in Abbildung \ref{setup} dargestellt.
 
 \begin{figure}[Hht]
 \centering
@@ -90,7 +90,7 @@ Generation der Selbe und am Beispiel des \cob 3-2 in Abbildung \ref{setup} darge
 
   Die einzelnen Modelle unterscheiden sich aber in ihren
 eingesetzten Komponenten. So ist der offensichtlichste Unterschied zwischen
-den in \ref{fig:vgl3336} abgebildeten cob3-3 und cob3-6 der von verschiedenen Herstellern stammende Arm. 
+den in Abbildung \ref{fig:vgl3336} abgebildeten cob3-3 und cob3-6 der von verschiedenen Herstellern stammende Arm. 
 
 \begin{figure}[htb]
   \centering
@@ -139,7 +139,7 @@ cob3-6 aufgelistet sind.
 \begin{description}
   \item[Kameras] Für die 3-dimensionale Bilderfassung werden
     verschiedene Systeme eingesetzt. Alle \cob der dritten Generation
-    besitzen ein Stereokameraarray aus zwei hochauflösenden Kameras.
+    besitzen ein Stereokamerapaar aus zwei hochauflösenden Kameras.
     Darüber hinaus wird im \cob 3-3 eine Microsoft Kinect, im \cob 3-6 eine
     Asus X-Tion Pro und in anderen Modellen eine Time-of-flight Kamera
     eingesetzt. 
@@ -164,14 +164,14 @@ cob3-6 aufgelistet sind.
 
 \section{Kalibrierungsbedarf} % (fold)
 \label{sec:Kalibrierungsbedarf}
-Wie jeder andere Roboter auch muss der \cob Kalibriert werden. Durch Ungenauigkeiten bei 
+Wie jeder andere Roboter auch muss der \cob kalibriert werden. Durch Ungenauigkeiten bei 
 der Montage oder Kollisionen beim Transport oder im Betrieb entspricht der Aufbau des \cob
 nie dem auf der technischen Zeichnung. Obwohl diese Ungenauigkeiten selten größer als ein 
 paar Millimeter oder Grad sind, können zum Beispiel Winkelfehler bei der Montage des Arms 
 zu Abweichungen führen, die es dem unkalibrierten Roboter unmöglich machen, ein Objekt, dessen
 genaue Position bekannt ist, zu greifen. Durch den Aufbau und Einsatz des \cob müssen 
 Objekte erst von der Sensorik erkannt und im Raum lokalisiert werden. Wenn in diesem Schritt 
-die Kameras schon an unbekannten Stellen des Roboters angebracht sind, kann aus den gewonnenen
+die Kameras an unbekannten Stellen des Roboters angebracht sind, kann aus den gewonnenen
 Daten keine zielführende Aktion des Roboters berechnet werden. Ein erkanntes Objekt muss also 
 erst im Kamerakoordinatensystem lokalisiert werden. Diese Position muss dann in ein zentrales 
 Roboterkoordinatensystem umgerechnet werden. Teil dieser Transformation sind beim \cob mindestens
