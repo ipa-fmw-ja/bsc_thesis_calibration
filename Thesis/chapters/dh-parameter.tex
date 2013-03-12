@@ -1,12 +1,20 @@
 \label{dh-p}
 
-Denavit und Hartenberg entwickelten 1955 ein Verfahren zur Berechnung von 
-Transformationen entlang einer kinematischen Kette. Dazu werden für jedes 
+Die Denavit-Hartenberg Notation basiert auf einem von Denavit und Hartenberg 
+entwickelten Verfahren zur Berechnung von Transformationen entlang einer 
+kinematischen Kette. Dazu werden für jedes 
 Gelenk vier Parameter benötigt. Die sogenannten \ac{DH-Parameter}. Aus diesen
 Parametern kann dann für jedes Gelenk die Transformationsmatrix zum vorherigen 
-Gelenk berechnet werden. Das Verfahren vereinfacht vor allem die berechnung 
+Gelenk berechnet werden. Das Verfahren vereinfacht vor allem die Berechnung 
 der Vorwärtskinematik, also die Berechnung von Positionen anhand der 
-Gelenkzustände. Um eine Transformation mit vier statt den sonst üblichen 
-sechs Parametern zu beschreiben werden die möglichen Freiheitsgrade der Gelenke
-limitiert. In der Anwendung führt dies aufgrund der gebräuchlichen Roboterbauformen
-aber selten zu Einschränkungen.
+Gelenkzustände. 
+
+Um eine Transformation mit vier statt den sonst üblichen 
+sechs Parametern zu beschreiben, werden die möglichen Freiheitsgrade der Gelenke
+limitiert. Um einen Aktor mit \ac{DH-Parameter}n zu beschreiben dürfen alle
+Gelenke nur einen Freiheitsgrad haben. In der Anwendung führt dies aufgrund der gebräuchlichen Roboterbauformen
+mit entweder Schubgelenken oder Drehgelenken aber selten zu Einschränkungen.
+
+Zur Angabe einer Transformation werden die 
+Parameter $[a, \alpha, d, \Theta]$ angegeben. Daraus kann die homogene 
+Translationsmatrix berechnet werden.\cite{craig2005}
