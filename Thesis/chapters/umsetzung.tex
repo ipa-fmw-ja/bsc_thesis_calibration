@@ -328,12 +328,20 @@ die detektierten Punkte in einem Polarkoordinatensystem angibt. Durch die Umrech
 in karthesische Koordinaten kann daraus ein Bild erzeugt werden, das von OpenCV
 weiterverarbeitet werden kann.
 
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.5\textwidth]{images/laser_calibration_object}
+  \caption{Kalibrierobjekt für die Laserscanner}
+  \label{fig:kalibrierobjekt-laser}
+\end{figure}
+
 Ein mögliches Kalibrierobjekt ist in \ref{fig:kalibrierobjekt-laser} dargestellt.
 Es besteht aus einem Schachbrett, an dessen Rändern Zylinder angebracht sind.
 Die Zylinder ergeben im 2D-Schnitt ein Kreissegment, das mithilfe einer 
 Hough-Transformation \cite{rohtua} erkannt werden kann. Auf diese Weise können 
 auch alle 
-auftretenden Geraden erkannt werden. Da die Achsen der 
+auftretenden Geraden erkannt werden. 
+Da die Achsen der 
 Zylinder des Kalibrierobjekts auf einer Ebene mit der Ebene des Schachbretts liegen, kann die
 Position des Kalibrierobjekts aus der Linie die den geringsten Fehler zu den
 Mittelpunkten der erkannten Kreise als Teil der Ebene des Kalibrierobjekts
