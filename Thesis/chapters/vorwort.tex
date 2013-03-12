@@ -1,6 +1,6 @@
 
 \chapter{Einleitung}
-Einen Forschungsschwerpunkt am \ac{IPA} der \ac{FhG} bildet das Thema 
+Ein Forschungsschwerpunkt am \ac{IPA} der \ac{FhG} ist das Thema 
 Servicerobotik. Die 1996 vom \ac{IPA} verfasste Definition für Serviceroboter 
 ist auch heute noch gültig:
 
@@ -22,7 +22,9 @@ wie dem PR2 von Willow Garage\footnote{Willow Garage ist ein Kalifornisches
 Unternehmen, das die Entwicklung ziviler Roboter durch Hardware und Open-Source
 Software beschleunigen will.} oder der \cob des \ac{IPA}. Die beiden letztgenannten 
 wurden als vielseitige Assistenten entwickelt, die in verschiedenen 
-Tätigkeitsfeldern eingesetzt werden können. Der in dieser Arbeit behandelte \cob 
+Tätigkeitsfeldern eingesetzt werden können. 
+
+Der in dieser Arbeit behandelte \cob 
 soll es älteren oder körperlich eingeschränkten Menschen ermöglichen, ein 
 unabhängiges Leben zu führen. Auch in Pflegeheimen oder 
 Krankenhäusern könnte der \cob eingesetzt werden. Hier können Hol- und Bringdienste ausgeführt oder die 
@@ -31,22 +33,22 @@ bleibt dem Personal mehr Zeit für den persönlichen Kontakt zu den Patienten. D
 Forschung am \ac{IPA} richtet sich aber auch an industriellen Einsatzzwecken 
 dieser persönlichen Assistenten aus. Der ebenfalls von \ac{IPA} entwickelten 
 Roboter \raw kann Hol- und Bringdienste ausführen sowie bei Arbeiten unterstützen, 
-die viel Erfahrung und Präzision benötigen. Wichtig für oben genannte Anwendungen 
+die viel Erfahrung und Präzision benötigen. Wichtig für diese Anwendungen 
 sind die bisherigen Entwicklungen in den Bereichen Navigation und Manipulation 
 sowie die Realisierung kognitiver Fähigkeiten für Roboter.
 
 Um in einem sich stetig ändernden Umfeld sicher und erfolgreich agieren zu 
 können, ist eine genaue und sichere Wahrnehmung und Manipulation essentiell. 
-Um dies zu ermöglichen, muss der Roboter kalibriert werden. Diese Kalibrierung 
+Um dieses zu ermöglichen, muss der Roboter kalibriert werden. Diese Kalibrierung 
 muss sowohl intrinsisch, also für den einzelnen Sensor oder Aktor an sich, als 
-auch extrinsisch, also die Komponente im Bezug auf das Gesamtsystem, erfolgen. 
+auch extrinsisch, also für die Komponente im Bezug auf das Gesamtsystem, erfolgen. 
 Wenn die Kalibrierung falsch oder nicht ausgeführt wird, entsteht
 eine Gefährdung für den Roboter selbst und auch für seine Umwelt. 
 
 Im Fall des \cob, der neben seinem eigentlichen Einsatzzweck als Serviceroboter auch
 als Forschungsroboter, auf dem verschiedene neue Robotertechnologien getestet 
 und evaluiert werden können, genutzt wird, ist eine zuverlässige Kalibrierung 
-besonders wichtig. Der \cob besteht aus einer omnidirektional bewegbaren 
+besonders wichtig. Der \cob\ besteht aus einer omnidirektional bewegbaren 
 Plattform, auf der ein Torso mit mehreren Freiheitsgraden und ein Roboterarm 
 mit Greifer angebracht sind. Außerdem befinden sich auf der Plattform drei 
 Laserscanner zur Navigation und Hindernis-/Objekterkennung. Am Torso sind drei 
@@ -54,32 +56,32 @@ Kameras, die den aufwendigsten und wichtigsten Teil der Sensorik ausmachen,
 montiert.
 
 In vorhergehenden Arbeiten wurde ein Verfahren implementiert, mit dem es möglich 
-ist, eines der zwei in Stuttgart eingesetzten Modelle des \cob automatisch zu 
+ist, eines der zwei in Stuttgart eingesetzten Modelle des \cob\ automatisch zu 
 kalibrieren. Für diese Kalibrierung muss der Roboter teilweise 
 demontiert werden, um bestimmte Parameter manuell ablesen und einstellen zu 
 können. Außerdem müssen die \ac{DH-Parameter}\footnote{Siehe Kapitel \ref{dh-p}} des Torsos und des Arms von Hand 
 ausgerechnet und in eine Konfigurationsdatei übertragen werden. Die zur 
 Kalibrierung notwendigen Positionen des Arms werden in einer weiteren Datei als 
-Gelenkwinkel abgelegt. Um einen neuen Roboter zu kalibrieren müssen die 
+Gelenkwinkel abgelegt. Um einen neuen Roboter zu kalibrieren, müssen die 
 Berechnungen der Gelenkwinkel und der \ac{DH-Parameter} erneut ausgeführt werden. 
 
 Diese Bachelorthesis soll den Funktionsumfang der bisherigen Kalibrierung 
 erweitern und generalisieren. Hierzu sollen die Konfigurationsdateien vereinfacht, 
 automatisch generiert oder überflüssig gemacht werden. Außerdem soll eine 
 einfache Möglichkeit entwickelt werden, Roboter, die sich in ihrem Aufbau, zum Beispiel durch 
-einen zweiten Arm, vom \cob unterscheiden, zu kalibrieren.
+einen zweiten Arm, vom \cob\ unterscheiden, zu kalibrieren.
 
 
-
+\newpage
 \section{Aufbau und Beschreibung des \cob}
 
-Das Projekt \cob wurde vom \ac{IPA} bereits 1998 ins Leben gerufen. Bisher sind
+Das Projekt \cob\ wurde vom \ac{IPA} bereits 1998 ins Leben gerufen. Bisher sind
 daraus drei Robotergenerationen hervorgegangen. Von der aktuellen dritten
 Generation gibt es bislang sieben Modelle, von denen zwei in Stuttgart am \ac{IPA}
-eingesetzt werden. Dies sind die beiden Modelle cob3-3 und cob3-6. Die anderen
+eingesetzt werden. Dies sind die beiden Modelle \cob3-3 und \cob3-6. Die anderen
 Modelle wurden an externe Forschungseinrichtungen verkauft und waren für Tests
-an der Hardware nicht verfügbar. Der Grundaufbau ist für jeden \cob der dritten
-Generation derselbe und am Beispiel des \cob 3-2 in Abbildung \ref{setup} dargestellt.
+an der Hardware nicht verfügbar. Der Grundaufbau ist für jeden \cob\ der dritten
+Generation derselbe und am Beispiel des \cob3-2 in Abbildung \ref{setup} dargestellt.
 
 \begin{figure}[Hht]
 \centering
@@ -90,21 +92,21 @@ Generation derselbe und am Beispiel des \cob 3-2 in Abbildung \ref{setup} darges
 
   Die einzelnen Modelle unterscheiden sich aber in ihren
 eingesetzten Komponenten. So ist der offensichtlichste Unterschied zwischen
-den in Abbildung \ref{fig:vgl3336} abgebildeten cob3-3 und cob3-6 der von verschiedenen Herstellern stammende Arm. 
+den in Abbildung \ref{fig:vgl3336} abgebildeten \cob3-3 und \cob3-6 der von verschiedenen Herstellern stammende Arm. 
 
 \begin{figure}[htb]
   \centering
-  \subfigure[\cob3-3 mit \acs{LBR3}]{\includegraphics[width=.45\textwidth]{images/cob33lbr.jpg}}\hfill
-  \subfigure[\cob3-6 mit \acs{LWA}]{\includegraphics[width=.45\textwidth]{images/cob36lwa.jpg}}
+  \subfigure[\cob3-3 mit \acs{LBR3}]{\includegraphics[width=.475\textwidth]{images/cob33lbr.jpg}}\hfill
+  \subfigure[\cob3-6 mit \acs{LWA}]{\includegraphics[width=.40\textwidth]{images/cob36lwa.jpg}}
   \caption{\cob3-3 und \cob3-6 im Vergleich}
   \label{fig:vgl3336}
 \end{figure}
 
 \subsection{Aktoren}
 
-Die verschiedenen \cob Distributionen sind mit den folgenden Aktoren und Sensoren
-ausgestattet, für die jeweils auch die Unterschiede zwischen den Modellen cob3-3 und
-cob3-6 aufgelistet sind.
+Die verschiedenen \cob\ Distributionen sind mit den folgenden Aktoren und Sensoren
+ausgestattet, für die jeweils auch die Unterschiede zwischen den Modellen \cob3-3 und
+\cob3-6 aufgelistet sind.
 
 \begin{description}
   \item[Arm] Für den an der Rückseite des Roboters
@@ -114,13 +116,15 @@ cob3-6 aufgelistet sind.
     Modellnummer ein 3 \ac{DOF} oder ein 4 \ac{DOF} Modell. Sowohl beim \cob
     3-3 als auch beim \cob 3-6 wird das 3 \ac{DOF} Modell eingesetzt.
   \item[Base] Als Basis für den Roboter dient eine omnidirektionale Plattform.
-    Durch die vier in alle Richtungen lenkbaren Räder ist es dem Roboter möglich,
+    Durch die vier lenkbaren Räder ist es dem Roboter möglich,
     aus dem Stand in alle Richtungen zu fahren oder zu drehen.
   \item[Tablett] Das Tablett kann beim \cob 3-3 hoch und runter geklappt werden
     und hat einen Touchscreen eingelassen, mit dem der Roboter bedient werden
     kann. Beim \cob 3-6 stehen mehr Freiheitsgrade zur Verfügung. Hier kann das
     Tablett zusätzlich entlang zwei Achsen gedreht werden. Dadurch kann die
     Bedienung vorallem für sitzende Personen bequemer gemacht werden. 
+  Zur Bedienung des
+    Roboters ist im Tablett ein Touchscreen eingebaut. 
   \item[Hand]
     Als Hand wird die \ac{SDH} mit drei Fingern und sieben Freiheitsgraden
     eingesetzt. 
@@ -138,7 +142,7 @@ cob3-6 aufgelistet sind.
 
 \begin{description}
   \item[Kameras] Für die 3-dimensionale Bilderfassung werden
-    verschiedene Systeme eingesetzt. Alle \cob der dritten Generation
+    verschiedene Systeme eingesetzt. Alle \cob\ der dritten Generation
     besitzen ein Stereokamerapaar aus zwei hochauflösenden Kameras.
     Darüber hinaus wird im \cob 3-3 eine Microsoft Kinect, im \cob 3-6 eine
     Asus X-Tion Pro und in anderen Modellen eine Time-of-flight Kamera
@@ -148,8 +152,6 @@ cob3-6 aufgelistet sind.
     Außerdem ist vorne und hinten je ein Sicherheitslaserscanner von SICK
     verbaut, die zusätzlich den Not-Aus aktivieren, wenn sie ein Hindernis in
     unmittelbarer Nähe detektieren. 
-  \item[Touchscreen] Zur Bedienung des
-    Roboters ist im Tablett ein Touchscreen eingebaut. 
   \item[Taktile Sensoren]
     Damit der Roboter unterschiedliche Dinge sicher greifen kann, sind an der
     Hand taktile Sensoren angebracht, die die Greifkraft ermitteln können.
@@ -164,17 +166,17 @@ cob3-6 aufgelistet sind.
 
 \section{Kalibrierungsbedarf} % (fold)
 \label{sec:Kalibrierungsbedarf}
-Wie jeder andere Roboter auch muss der \cob kalibriert werden. Durch Ungenauigkeiten bei 
-der Montage oder Kollisionen beim Transport oder im Betrieb entspricht der Aufbau des \cob
+Wie jeder andere Roboter auch muss der \cob\ kalibriert werden. Durch Ungenauigkeiten bei 
+der Montage oder Kollisionen beim Transport oder im Betrieb entspricht der Aufbau des \cob\
 nie dem auf der technischen Zeichnung. Obwohl diese Ungenauigkeiten selten größer als ein 
 paar Millimeter oder Grad sind, können zum Beispiel Winkelfehler bei der Montage des Arms 
 zu Abweichungen führen, die es dem unkalibrierten Roboter unmöglich machen, ein Objekt, dessen
-genaue Position bekannt ist, zu greifen. Durch den Aufbau und Einsatz des \cob müssen 
+genaue Position bekannt ist, zu greifen. Durch den Aufbau und Einsatz des \cob\ müssen 
 Objekte erst von der Sensorik erkannt und im Raum lokalisiert werden. Wenn in diesem Schritt 
 die Kameras an unbekannten Stellen des Roboters angebracht sind, kann aus den gewonnenen
 Daten keine zielführende Aktion des Roboters berechnet werden. Ein erkanntes Objekt muss also 
 erst im Kamerakoordinatensystem lokalisiert werden. Diese Position muss dann in ein zentrales 
-Roboterkoordinatensystem umgerechnet werden. Teil dieser Transformation sind beim \cob mindestens
+Roboterkoordinatensystem umgerechnet werden. Teil dieser Transformation sind beim \cob\ mindestens
 zwei unbekannte Einzeltransformationen. Dies ist die Montageposition des Torsos sowie die 
 Position der Kameras auf dem drehbaren Kameraträger. Zusätzlich kann noch die Montageposition
 des Kopfes auf dem Torso unbekannt sein. Ein Fehler an dieser Stelle kann aber auch durch die
